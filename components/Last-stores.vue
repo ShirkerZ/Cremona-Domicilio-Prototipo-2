@@ -509,7 +509,7 @@ export default {
           my-2;
         }
 
-        p {
+        .summary {
           max-height: 5em;
           @apply block
           break-words
