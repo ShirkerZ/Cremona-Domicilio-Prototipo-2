@@ -1,8 +1,8 @@
 <template>
   <div class="stores-container">
     <Zones />
-    <Last-stores />
-    <Type />
+    <Stores />
+    <Categories />
     <How-it-works />
     <div class="banners">
       <Banner-more />

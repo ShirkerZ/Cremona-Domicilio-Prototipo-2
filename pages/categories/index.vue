@@ -1,7 +1,7 @@
 <template>
   <div class="categories-container">
     <Zones />
-    <Type />
+    <Categories />
     <How-it-works />
     <div class="banners">
       <Banner-more />

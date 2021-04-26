@@ -1,7 +1,6 @@
 <template>
   <div class="store-container">
     <Zones />
-
     <div v-if="$fetchState.pending">
       <div class="skeleton">
         <div class="skeleton-header">
@@ -19,7 +18,7 @@
       </div>
     </div>
     <div v-else>
-      <div class="store" v-if="store != undefined">
+      <div class="store">
         <div class="store-header">
           <img :src="store.logo" alt="" class="avatar" />
           <h2>{{ store.title }}</h2>
@@ -288,7 +287,7 @@
       </div>
     </div>
 
-    <Type />
+    <Categories />
     <div class="banners">
       <Banner-more />
       <Banner-join />

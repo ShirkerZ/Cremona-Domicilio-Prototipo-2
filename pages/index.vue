@@ -2,8 +2,8 @@
   <div class="index-container">
     <Home />
     <Zones />
-    <Type />
-    <Last-stores />
+    <Categories />
+    <Stores />
     <How-it-works />
     <Locations />
     <div class="banners">
