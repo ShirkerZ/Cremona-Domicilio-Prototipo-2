@@ -608,22 +608,21 @@ export default {
             div {
               @apply flex
                 my-2
-              flex-col
-              w-1/2
-              flex-wrap
-              justify-end
-              md:flex-row;
+                md:w-1/2
+                flex-wrap
+                justify-start
+                flex-row
+                md:justify-end;
 
               p {
                 @apply flex
                   min-w-max
+                  mr-2
+                  md:mr-0
                   md:ml-2;
 
                 &::after {
-                  content: "-";
-                  @apply
-                  hidden
-                  md:block md:ml-2;
+                  content: ",";
                 }
 
                 &:last-child::after {
