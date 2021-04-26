@@ -103,12 +103,12 @@ export default {
 
   mounted() {
     // localStorage.clear();
-    // if (localStorage.getItem("municipality")) {
-    //   this.$store.commit(
-    //     "overwriteSelectedMunicipality",
-    //     localStorage.getItem("municipality")
-    //   );
-    // }
+    if (localStorage.getItem("municipality")) {
+      this.$store.commit(
+        "overwriteSelectedMunicipality",
+        localStorage.getItem("municipality")
+      );
+    }
 
     //  Change municipality on manual url change
     this.$nextTick(() => {
