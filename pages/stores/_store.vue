@@ -353,6 +353,7 @@ export default {
 
   .skeleton {
     @apply p-4
+      w-screen
       md:py-12;
 
     .skeleton-header {
@@ -419,12 +420,13 @@ export default {
   .store {
     @apply px-4
       py-4
+      w-screen
       text-dark-cremona-domicilio
       md:py-12;
 
     .store-header {
       img {
-        @apply bg-red-500
+        @apply
             w-24
             h-24
             rounded-full

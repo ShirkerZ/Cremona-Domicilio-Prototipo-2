@@ -138,7 +138,8 @@ export default {
       bottom-0
       left-0
       z-0
-      h-2/3;
+      w-1/3
+      md:w-1/4;
   }
 
   .right-img {
@@ -146,7 +147,8 @@ export default {
       bottom-0
       right-0
       z-0
-      h-2/3;
+      w-1/3
+      md:w-1/4;
   }
 }
 </style>
