@@ -15,7 +15,7 @@
         getCategory.stores_number
       }})
       <h6 v-if="selectedMunicipality">
-        {{ $t("stores.storesDeliveryIn") }}
+        {{ $t("stores.storesThatDeliveryIn") }}
         <span>{{ selectedMunicipality.title }}</span>
       </h6>
     </h3>

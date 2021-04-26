@@ -24,6 +24,7 @@
     "stores": {
         "lastStores": "What kind of store are you looking for in:",
         "storesDeliveryIn": "Shops that deliver in",
+        "storesThatDeliveryIn": "That deliver in",
         "storesCategoryIn": "Shops search form",
         "allShops": "All Shops in"
     },
