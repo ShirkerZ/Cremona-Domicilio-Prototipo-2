@@ -1,5 +1,6 @@
 export const state = () => ({
     selectedMunicipality: null,
+    deliveryZone: null,
 
     stores: [],
 
@@ -37,8 +38,9 @@ export const getters = {
             return state.stores
         }
         let municipalitySlug = payload || state.selectedMunicipality.slug
-        let result = ""
-        // let result = state.stores.filter(store => (store.delivery.zone.municipality.filter(el => el.slug == municipalitySlug)).length > 0)
+        //  Select available stores (ONLY TEMPORARY)
+        const storesArray = state.stores.slice(0, 6)
+        let result = storesArray.filter(store => (store.delivery[state.deliveryZone || 0].municipality.filter(el => el.slug == municipalitySlug)).length > 0)
         return result
     },
 
@@ -48,7 +50,7 @@ export const getters = {
             return getters.getStoreByMunicipality(municipality)
         }
         let getter1 = getters.getStoreByMunicipality(municipality)
-        let result = getter1.filter(store => (store.delivery.zone.municipality.filter(el => el.slug == state.selectedMunicipality.slug)).length > 0)
+        let result = getter1.filter(store => (store.delivery[state.deliveryZone || 0].municipality.filter(el => el.slug == state.selectedMunicipality.slug)).length > 0)
         return result
     },
 
@@ -110,14 +112,5 @@ export const mutations = {
     }
 }
 
-export const actions = {
-    // async fetchDati(context) {
-    //     let dataContainer = await fetch("/data/data.json")
-    //         .then(res => res.json())
-    //     context.commit("updateStores", dataContainer.stores)
-    //     context.commit("updateZones", dataContainer.zones)
-    //     context.commit("updateCategories", dataContainer.categories)
-    // }
-}
 
 
