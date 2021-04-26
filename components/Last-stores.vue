@@ -1,5 +1,6 @@
 <template>
   <div class="last-stores">
+    <!-- IF 2 MUNICIPALITIES -->
     <h3 v-if="$nuxt.context.route.params.municipality && selectedMunicipality">
       {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
       <span class="store-number"> ({{ getMunicipality.stores_number }})</span>
@@ -8,18 +9,31 @@
         <span>{{ selectedMunicipality.title }}</span>
       </h6>
     </h3>
+    <!-- IF CATEGORY -->
+    <h3 v-else-if="getCategory">
+      {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }} ({{
+        getCategory.stores_number
+      }})
+      <h6 v-if="selectedMunicipality">
+        {{ $t("stores.storesDeliveryIn") }}
+        <span>{{ selectedMunicipality.title }}</span>
+      </h6>
+    </h3>
 
+    <!-- IF PARAMS MUNICIPALITY -->
     <h3 v-else-if="$nuxt.context.route.params.municipality && getMunicipality">
       {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
       <span class="store-number"> ({{ getMunicipality.stores_number }})</span>
     </h3>
 
+    <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
     <h3 v-else-if="selectedMunicipality">
       {{ $t("stores.storesDeliveryIn") }} {{ selectedMunicipality.title }} ({{
         selectedMunicipality.stores_number
       }})
     </h3>
 
+    <!-- IF IN HOME -->
     <h3
       v-else-if="
         $nuxt.context.route.path !== localePath('categories-category') ||
@@ -30,12 +44,6 @@
       <span>{{
         selectedMunicipality ? selectedMunicipality.title : $t("zones.allZones")
       }}</span>
-    </h3>
-
-    <h3 v-else-if="getCategory">
-      {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }} ({{
-        getCategory.stores_number
-      }})
     </h3>
 
     <div v-if="$fetchState.pending">
@@ -127,7 +135,10 @@
               </main>
               <footer>
                 <ul v-if="store.delivery.length">
-                  <li v-for="(cost, index) in store.delivery[0].config" :key="index">
+                  <li
+                    v-for="(cost, index) in store.delivery[0].config"
+                    :key="index"
+                  >
                     <span
                       class="free-delivery"
                       v-if="cost.minimum_expense > 0 && cost.delivery_cost == 0"
