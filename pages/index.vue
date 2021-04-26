@@ -17,12 +17,6 @@
   </div>
 </template>
 
-<script>
-export default {
-    // transition: "slide-bottom",
-}
-</script>
-
 <style lang="postcss" scoped>
 .index-container {
   @apply bg-gray-50

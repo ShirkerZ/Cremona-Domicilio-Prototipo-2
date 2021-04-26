@@ -39,29 +39,14 @@ body {
     min-w-full;
 }
 
-// .page-enter-active,
-// .page-leave-active {
-//   transition: opacity 0.5s, transform 0.5s;
-// }
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
 
-// .page-enter {
-//   opacity: 0;
-//   transform: translateX(-100%);
-// }
-
-// .page-leave-to {
-//   opacity: 0;
-//   transform: translateX(100%);
-// }
-
-// .slide-bottom-enter-active,
-// .slide-bottom-leave-active {
-//   transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out;
-// }
-
-// .slide-bottom-enter,
-// .slide-bottom-leave-to {
-//   opacity: 0;
-//   transform: translate3d(0, 15px, 0);
-// }
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 15px, 0);
+}
 </style>

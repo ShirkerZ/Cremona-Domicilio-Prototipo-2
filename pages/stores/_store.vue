@@ -24,7 +24,7 @@
           <img :src="store.logo" alt="" class="avatar" />
           <h2>{{ store.title }}</h2>
           <ul class="category-container" v-if="store.delivery">
-            <li v-for="cost in store.delivery[0].config" :key="cost">
+            <li v-for="cost in deliveryData.config" :key="cost">
               <span
                 class="free-delivery"
                 v-if="cost.minimum_expense > 0 && cost.delivery_cost == 0"
@@ -108,10 +108,10 @@
               <h3>Modalità di consegna</h3>
               <ul v-if="store.delivery">
                 <!-- Delivery days -->
-                <li v-if="store.delivery[0].delivery_days_times">
+                <li v-if="deliveryData.delivery_days_times">
                   <h5>Giorni di consegna</h5>
                   <p>
-                    {{ store.delivery[0].delivery_days_times }}
+                    {{ deliveryData.delivery_days_times }}
                   </p>
                 </li>
 
@@ -119,7 +119,7 @@
                 <li>
                   <h5>Costo Conegna</h5>
                   <div>
-                    <p v-for="cost in store.delivery[0].config" :key="cost">
+                    <p v-for="cost in deliveryData.config" :key="cost">
                       <span
                         v-if="
                           cost.minimum_expense == 0 && cost.delivery_cost == 0
@@ -135,7 +135,7 @@
                         {{
                           Math.min.apply(
                             null,
-                            store.delivery[0].config.map(
+                            deliveryData.config.map(
                               (item) => item.minimum_expense
                             )
                           ) == cost.minimum_expense
@@ -155,9 +155,7 @@
                   v-if="
                     Math.min.apply(
                       null,
-                      store.delivery[0].config.map(
-                        (item) => item.minimum_expense
-                      )
+                      deliveryData.config.map((item) => item.minimum_expense)
                     ) > 0
                   "
                 >
@@ -166,9 +164,7 @@
                     {{
                       Math.min.apply(
                         null,
-                        store.delivery[0].config.map(
-                          (item) => item.minimum_expense
-                        )
+                        deliveryData.config.map((item) => item.minimum_expense)
                       )
                     }}€
                   </p>
@@ -262,12 +258,10 @@
               </p>
             </div>
             <div class="municipalities" v-if="store.delivery.length">
-              <h3>
-                Comuni serviti ({{ store.delivery[0].municipality.length }})
-              </h3>
+              <h3>Comuni serviti ({{ deliveryData.municipality.length }})</h3>
               <ul>
                 <li
-                  v-for="municipality in store.delivery[0].municipality"
+                  v-for="municipality in deliveryData.municipality"
                   :key="municipality.slug"
                 >
                   <nuxt-link
@@ -316,7 +310,7 @@ export default {
 
   computed: {
     deliveryData() {
-      let delivery_zone = 2;
+      let delivery_zone = null;
       if (delivery_zone) {
         return this.store.delivery[delivery_zone];
       }
