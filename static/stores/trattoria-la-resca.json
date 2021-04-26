@@ -1,0 +1,67 @@
+{
+    "title": "Trattoria la Resca",
+    "slug": "trattoria-la-resca",
+    "logo": "https://cremona.domicilio.app/app/uploads/2020/12/laresca-150x150.png",
+    "phone": "0372830627",
+    "address": {
+        "street": "Via Padana inferiore 7",
+        "cap": "26039",
+        "city": "Vescovato",
+        "state": "CR"
+    },
+    "email": "info@trattorialaresca.it",
+    "website": "https://www.trattorialaresca.it/",
+    "social": {
+        "facebook": "https://www.facebook.com/trattorialaresca/",
+        "instagram": null
+    },
+    "whatsapp": "3516908498",
+    "online_reservations": [
+        {
+            "website": null
+        }
+    ],
+    "delivery": [
+        {
+            "municipality": [
+                {
+                    "id": "1",
+                    "title": "Casalmaggiore",
+                    "slug": "casalmaggiore"
+                },
+                {
+                    "id": "2",
+                    "title": "Martignana di Po",
+                    "slug": "martignana-di-po"
+                }
+            ],
+            "delivery_days_times": null,
+            "config": [
+                {
+                    "minimum_expense": null,
+                    "delivery_cost": null
+                }
+            ]
+        }
+    ],
+    "payment_options": null,
+    "prepayment": false,
+    "description": "<p>Trattoria la Resca arriva direttamente a casa tua. Contattaci telefonicamente o con un messaggio su whatsapp per prenotare il tuo menù, perfetto per ogni occasione. Ti chiediamo di avvisarci entro le ore 20 del giorno precedente la consegna.<br><br>I nostri piatti esaltano le tipicità della zona, sono preparati in maniera tradizionale utilizzando solo prodotti selezionati e provenienti da fornitori storici e di fiducia.<br><br>Guarda i nostri suggerimenti per il Menù delle feste natalizie 2020:</p>",
+    "gallery": [
+        "https://cremona.domicilio.app/app/uploads/2020/12/127948540_2871468769750866_1832113259924244157_o.jpg",
+        "https://cremona.domicilio.app/app/uploads/2020/12/128100692_2871472406417169_8516021645467332002_n.jpg",
+        "https://cremona.domicilio.app/app/uploads/2020/12/128647311_2871473056417104_820289561749734996_n.jpg",
+        "https://cremona.domicilio.app/app/uploads/2020/12/128350253_2871469439750799_8643499413540451089_o.jpg"
+    ],
+    "products": {
+        "products_list": "list image",
+        "products_surveyed": null
+    },
+    "category": [
+        {
+            "id": "1",
+            "title": "Ristorazione",
+            "slug": "ristorazione"
+        }
+    ]
+}

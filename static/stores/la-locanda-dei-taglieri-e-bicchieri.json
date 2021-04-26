@@ -1,0 +1,74 @@
+{
+    "title": "La locanda dei taglieri e bicchieri",
+    "slug": "la-locanda-dei-taglieri-e-bicchieri",
+    "logo": "https://cremona.domicilio.app/app/uploads/2021/02/Pappardelle-al-sugo-di-lepre-150x150.png",
+    "phone": "3516908498",
+    "address": {
+        "street": "Strada Sabbionetana 20 b",
+        "cap": "26041",
+        "city": "Casalmaggiore",
+        "state": "CR"
+    },
+    "email": "ussialan890@gmail.com",
+    "website": null,
+    "social": {
+        "facebook": null,
+        "instagram": null
+    },
+    "whatsapp": "3516908498",
+    "online_reservations": [
+        {
+            "website": null
+        }
+    ],
+    "delivery": [
+        {
+            "municipality": [
+                {
+                    "id": "1",
+                    "title": "Casalmaggiore",
+                    "slug": "casalmaggiore"
+                },
+                {
+                    "id": "2",
+                    "title": "Martignana di Po",
+                    "slug": "martignana-di-po"
+                }
+            ],
+            "delivery_days_times": "Tutti i giorni tranne Martedì Dalle 19 alle 23",
+            "config": [
+                {
+                    "minimum_expense": "15",
+                    "delivery_cost": "4"
+                },
+                {
+                    "minimum_expense": "30",
+                    "delivery_cost": "0"
+                }
+            ]
+        }
+    ],
+    "payment_options": [
+        "cash",
+        "credit_card"
+    ],
+    "prepayment": false,
+    "description": "<p>Per consegna a Viadana spese di trasporto gratuite superiore a 35 euro.<br>Casalmaggiore gratuite con spesa superiore alle 18 euro</p>",
+    "gallery": [],
+    "products": {
+        "products_list": "list image",
+        "products_surveyed": [
+            "Hamburger vario genere",
+            "Tortelli",
+            "Tigelle con salumi",
+            "Fritture miste ad aria"
+        ]
+    },
+    "category": [
+        {
+            "id": "1",
+            "title": "Ristorazione",
+            "slug": "ristorazione"
+        }
+    ]
+}
