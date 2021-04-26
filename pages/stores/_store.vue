@@ -621,7 +621,9 @@ export default {
 
                 &::after {
                   content: "-";
-                  @apply md:ml-2;
+                  @apply
+                  hidden
+                  md:block md:ml-2;
                 }
 
                 &:last-child::after {
@@ -667,7 +669,8 @@ export default {
             ul {
               display: grid;
               grid-template-columns: repeat(auto-fit, minmax(32%, 1fr));
-              @apply list-none
+              @apply 
+                list-none
                 px-0
                 gap-4
                 justify-between;
@@ -678,6 +681,7 @@ export default {
                     rounded-none
                     object-cover
                     cursor-pointer
+                    h-52
                     md:w-full
                     md:h-96;
                 }
