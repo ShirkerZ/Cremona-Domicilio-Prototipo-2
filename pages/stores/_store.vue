@@ -352,7 +352,9 @@ export default {
   }
 
   .skeleton {
-    @apply p-4
+    @apply 
+      animate-pulse
+      p-4
       w-screen
       md:py-12;
 

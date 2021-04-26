@@ -110,6 +110,7 @@ export default {
 
         .skeleton-category {
           @apply
+            animate-pulse
             flex
             items-center
             bg-gray-200
@@ -121,7 +122,7 @@ export default {
             rounded-full
             lg:text-xl
             lg:px-6
-            lg:py-2
+            lg:py-2;
         }
     }
   }

@@ -417,7 +417,8 @@ export default {
       lg:pl-0;
 
     .skeleton {
-      @apply bg-gray-100
+      @apply animate-pulse
+      bg-gray-100
         shadow-md
         rounded
         flex
@@ -580,9 +581,4 @@ export default {
       hover:bg-opacity-80;
   }
 }
-
-// .last-stores .card-container .card {
-//   height: 370px;
-//   min-width: 250px;
-// }
 </style>
