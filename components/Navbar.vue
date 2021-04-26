@@ -171,6 +171,7 @@ export default {
   md:justify-between mx-auto max-w-screen-2xl;
 
     .logo {
+      min-height: max-content;
       @apply fixed
       z-10
       top-0
@@ -255,6 +256,7 @@ export default {
       }
     }
     .mobile-nav {
+      min-height: max-content;
       @apply w-screen
       z-20
       fixed

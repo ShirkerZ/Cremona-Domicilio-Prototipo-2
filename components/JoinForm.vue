@@ -308,9 +308,10 @@ export default {
 <style lang="scss" scoped>
 .join-form {
   @apply p-4
-      px-36
+    w-screen
     max-w-screen-xl
-    mx-auto;
+    mx-auto
+    md:px-36;
 
   .title {
     @apply text-2xl
@@ -331,21 +332,21 @@ export default {
   .steps {
     @apply flex
     w-full
-
     my-4;
 
     ul {
       @apply flex
-        w-full
-        justify-between;
+      flex-col
+      w-full
+      min-w-max
+      justify-between
+      md:flex-row;
 
       li {
         @apply text-sm
-                flex
-                flex-row
-                flex-nowrap
-                text-gray-cremona-domicilio
-                opacity-50;
+          my-2
+          text-gray-cremona-domicilio
+          opacity-50;
 
         span {
           @apply rounded-full

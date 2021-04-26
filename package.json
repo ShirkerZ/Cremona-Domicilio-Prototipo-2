@@ -12,6 +12,7 @@
     "core-js": "^3.9.1",
     "node-sass": "^5.0.0",
     "nuxt": "^2.15.3",
+    "nuxt-gsap": "^0.1.4",
     "nuxt-i18n": "^6.26.0",
     "postcss": "^8.2.12",
     "sass-loader": "6",

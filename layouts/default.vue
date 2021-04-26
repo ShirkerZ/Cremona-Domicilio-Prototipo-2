@@ -27,9 +27,8 @@ export default {
 <style lang="scss">
 html,
 body {
-  @apply max-h-screen
-    overflow-auto
-    md:max-h-full;
+  @apply max-h-full
+    overflow-auto;
 }
 
 .container {
