@@ -91,7 +91,9 @@
 
         <!-- IF 2 MUNICIPALITIES -->
         <h3
-          v-else-if="$nuxt.context.route.params.municipality && selectedMunicipality"
+          v-else-if="
+            $nuxt.context.route.params.municipality && selectedMunicipality
+          "
         >
           {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
           <span class="store-number">
@@ -133,7 +135,7 @@
         </h3>
       </div>
 
-      <div v-if="filteredStores">
+      <div v-if="filteredStores.length">
         <div class="card-container">
           <div class="card" v-for="store of paginate" :key="store.slug">
             <nuxt-link
@@ -194,7 +196,7 @@
           "
         >
           <button v-if="totalPages - currentPage < 1" @click="goToFirst">
-            First &#171;
+          &#171; First 
           </button>
           <button v-if="currentPage !== 1" @click="goBack">&#171;</button>
           <button
@@ -254,7 +256,7 @@ export default {
     return {
       currentPage: 1,
       resultCount: 0,
-      itemsPerPage: 21,
+      itemsPerPage: 12,
     };
   },
 
@@ -387,11 +389,15 @@ export default {
 
     button {
       @apply rounded-full
-            py-2
-            px-4
-            outline-none
-            opacity-50
-            hover:opacity-100;
+        flex
+        justify-center
+        items-center
+        min-w-max
+        h-8
+        w-8
+        outline-none
+        opacity-50
+        hover:opacity-100;
     }
     .current {
       @apply bg-green-cremona-domicilio
@@ -409,11 +415,13 @@ export default {
       md:font-bold;
 
     span {
-      @apply text-green-400;
+      @apply text-green-cremona-domicilio
+        font-bold;
     }
     .store-number {
       @apply text-lg
-      text-dark-cremona-domicilio;
+        font-medium
+        text-dark-cremona-domicilio;
     }
   }
 
