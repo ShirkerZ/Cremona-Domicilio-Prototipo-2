@@ -1,6 +1,5 @@
 <template>
-  <div class="last-stores">
-
+  <div class="stores">
     <div v-if="$fetchState.pending">
       <div class="skeleton-container">
         <div class="skeleton-header">
@@ -79,61 +78,64 @@
       </div>
     </div>
     <div class="content" v-else>
-      <!-- IF 2 MUNICIPALITIES -->
-      <h3
-        v-if="$nuxt.context.route.params.municipality && selectedMunicipality"
-      >
-        {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-        <span class="store-number"> ({{ getMunicipality.stores_number }})</span>
-        <h6>
-          {{ $t("stores.storesThatDeliveryIn") }}:
-          <span>{{ selectedMunicipality.title }}</span>
-        </h6>
-      </h3>
-      <!-- IF CATEGORY -->
-      <h3 v-else-if="getCategory">
-        {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }} ({{
-          getCategory.stores_number
-        }})
-        <h6 v-if="selectedMunicipality">
-          {{ $t("stores.storesThatDeliveryIn") }}
-          <span>{{ selectedMunicipality.title }}</span>
-        </h6>
-      </h3>
+      <div class="header">
+        <!-- IF 2 MUNICIPALITIES -->
+        <h3
+          v-if="$nuxt.context.route.params.municipality && selectedMunicipality"
+        >
+          {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
+          <span class="store-number">
+            ({{ getMunicipality.stores_number }})</span
+          >
+          <h6>
+            {{ $t("stores.storesThatDeliveryIn") }}:
+            <span>{{ selectedMunicipality.title }}</span>
+          </h6>
+        </h3>
+        <!-- IF CATEGORY -->
+        <h3 v-else-if="getCategory">
+          {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }}
+          <span class="store-number">({{ getCategory.stores_number }})</span>
+          <h6 v-if="selectedMunicipality">
+            {{ $t("stores.storesThatDeliveryIn") }}
+            <span>{{ selectedMunicipality.title }}</span>
+          </h6>
+        </h3>
 
-      <!-- IF PARAMS MUNICIPALITY -->
-      <h3
-        v-else-if="$nuxt.context.route.params.municipality && getMunicipality"
-      >
-        {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-      </h3>
+        <!-- IF PARAMS MUNICIPALITY -->
+        <h3
+          v-else-if="$nuxt.context.route.params.municipality && getMunicipality"
+        >
+          {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
+        </h3>
 
-      <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
-      <h3 v-else-if="selectedMunicipality">
-        {{ $t("stores.allShops") }}
-        <span class="store-number">
-          ({{ selectedMunicipality.stores_number }})
-        </span>
-        <h6>
-          {{ $t("stores.storesThatDeliveryIn") }}:
-          <span>{{ selectedMunicipality.title }}</span>
-        </h6>
-      </h3>
+        <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
+        <h3 v-else-if="selectedMunicipality">
+          {{ $t("stores.allShops") }}
+          <span class="store-number">
+            ({{ selectedMunicipality.stores_number }})
+          </span>
+          <h6>
+            {{ $t("stores.storesThatDeliveryIn") }}:
+            <span>{{ selectedMunicipality.title }}</span>
+          </h6>
+        </h3>
 
-      <!-- IF IN HOME -->
-      <h3
-        v-else-if="
-          $nuxt.context.route.path !== localePath('categories-category') ||
-          $nuxt.context.route.path === '/'
-        "
-      >
-        {{ $t("stores.lastStores") }}
-        <span>{{
-          selectedMunicipality
-            ? selectedMunicipality.title
-            : $t("zones.allZones")
-        }}</span>
-      </h3>
+        <!-- IF IN HOME -->
+        <h3
+          v-else-if="
+            $nuxt.context.route.path !== localePath('categories-category') ||
+            $nuxt.context.route.path === '/'
+          "
+        >
+          {{ $t("stores.lastStores") }}
+          <span>{{
+            selectedMunicipality
+              ? selectedMunicipality.title
+              : $t("zones.allZones")
+          }}</span>
+        </h3>
+      </div>
 
       <div v-if="filteredStores">
         <div class="card-container">
@@ -369,7 +371,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.last-stores {
+.stores {
   @apply py-12
     px-4
     w-screen
