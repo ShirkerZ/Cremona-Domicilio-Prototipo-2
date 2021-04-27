@@ -5,7 +5,7 @@
       {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
       <span class="store-number"> ({{ getMunicipality.stores_number }})</span>
       <h6>
-        {{ $t("stores.storesDeliveryIn") }}
+        {{ $t("stores.storesThatDeliveryIn") }}:
         <span>{{ selectedMunicipality.title }}</span>
       </h6>
     </h3>
@@ -23,14 +23,18 @@
     <!-- IF PARAMS MUNICIPALITY -->
     <h3 v-else-if="$nuxt.context.route.params.municipality && getMunicipality">
       {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-      <span class="store-number"> ({{ getMunicipality.stores_number }})</span>
     </h3>
 
     <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
     <h3 v-else-if="selectedMunicipality">
-      {{ $t("stores.storesDeliveryIn") }} {{ selectedMunicipality.title }} ({{
-        selectedMunicipality.stores_number
-      }})
+      {{ $t("stores.allShops") }}
+      <span class="store-number">
+        ({{ selectedMunicipality.stores_number }})
+      </span>
+      <h6>
+        {{ $t("stores.storesThatDeliveryIn") }}:
+        <span>{{ selectedMunicipality.title }}</span>
+      </h6>
     </h3>
 
     <!-- IF IN HOME -->
@@ -116,7 +120,7 @@
         </div>
       </div>
     </div>
-    <div v-else>
+    <div class="content" v-else>
       <div v-if="filteredStores.length">
         <div class="card-container">
           <div class="card" v-for="store of paginate" :key="store.slug">
@@ -198,7 +202,7 @@
         </div>
       </div>
 
-      <div v-else>
+      <div class="shop-not-found" v-else>
         <p>Nessun negozio trovato...</p>
       </div>
 
@@ -212,7 +216,7 @@
               query: { municipality: selectedMunicipality.slug },
             })
           "
-          >{{ $t("stores.allShops") }}
+          >{{ $t("stores.allShopsIn") }}
           {{
             selectedMunicipality
               ? selectedMunicipality.title
@@ -220,7 +224,7 @@
           }}
         </nuxt-link>
         <nuxt-link v-else class="btn-link" :to="localePath('stores')">
-          {{ $t("stores.allShops") }}
+          {{ $t("stores.allShopsIn") }}
           {{ $t("zones.allZones") }}
         </nuxt-link>
       </span>
@@ -383,7 +387,8 @@ export default {
   }
 
   h3 {
-    @apply text-2xl
+    @apply text-dark-cremona-domicilio
+      text-2xl
       font-medium
       my-8
       md:text-4xl
@@ -400,6 +405,7 @@ export default {
 
   h6 {
     @apply text-lg
+    font-medium
     my-2
     md:text-2xl;
   }
@@ -458,8 +464,11 @@ export default {
     }
   }
 
-  .card-container {
-    @apply flex
+  .content {
+    @apply w-full;
+
+    .card-container {
+      @apply flex
       flex-nowrap
       overflow-x-scroll
       py-8
@@ -473,8 +482,8 @@ export default {
       lg:grid-cols-3
       lg:pl-0;
 
-    .card {
-      @apply cursor-pointer
+      .card {
+        @apply cursor-pointer
       bg-white
         overflow-hidden
         p-6
@@ -491,43 +500,43 @@ export default {
         transition-shadow
         hover:shadow-lg;
 
-      a {
-        @apply h-full
+        a {
+          @apply h-full
         flex
         flex-col
         justify-between;
 
-        .avatar {
-          @apply w-12
+          .avatar {
+            @apply w-12
           h-12
           rounded-full
           bg-blue-200;
-        }
+          }
 
-        h3 {
-          @apply text-lg
+          h3 {
+            @apply text-lg
           my-2;
-        }
+          }
 
-        .summary {
-          max-height: 5em;
-          @apply block
+          .summary {
+            max-height: 5em;
+            @apply block
           break-words
           text-xs
           leading-5
           overflow-hidden
           overflow-ellipsis;
-        }
+          }
 
-        footer {
-          ul {
-            @apply mt-4
+          footer {
+            ul {
+              @apply mt-4
             flex
             flex-wrap;
 
-            li,
-            .card-categories {
-              @apply flex-initial
+              li,
+              .card-categories {
+                @apply flex-initial
               bg-gray-100
               my-1
               mr-2
@@ -536,37 +545,44 @@ export default {
               rounded-full
               text-xs;
 
-              span {
-                @apply px-4
+                span {
+                  @apply px-4
                   py-1
                   rounded-full;
+                }
               }
-            }
 
-            .card-categories {
-              @apply px-4
+              .card-categories {
+                @apply px-4
               py-1;
-            }
-            .delivery-cost {
-              @apply bg-gray-cremona-domicilio
+              }
+              .delivery-cost {
+                @apply bg-gray-cremona-domicilio
                 text-white;
-            }
+              }
 
-            .free-delivery {
-              @apply bg-green-cremona-domicilio
+              .free-delivery {
+                @apply bg-green-cremona-domicilio
                 text-white;
+              }
             }
           }
         }
       }
     }
+
+    .shop-not-found {
+      @apply
+        text-center;
+    }
   }
+  
   span {
     @apply mx-auto
     w-full;
-  }
-  .btn-link {
-    @apply bg-purple-cremona-domicilio
+
+    .btn-link {
+      @apply bg-purple-cremona-domicilio
       text-white
       rounded-full
       outline-none
@@ -579,6 +595,7 @@ export default {
       md:w-auto
       lg:mx-auto
       hover:bg-opacity-80;
+    }
   }
 }
 </style>
