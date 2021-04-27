@@ -420,7 +420,7 @@ export default {
       md:grid-cols-2
       md:gap-8
       lg:grid-cols-3
-      lg:pl-0;
+      lg:px-0;
 
     .skeleton {
       @apply animate-pulse
@@ -480,7 +480,7 @@ export default {
       md:grid-cols-2
       md:gap-8
       lg:grid-cols-3
-      lg:pl-0;
+      lg:px-0;
 
       .card {
         @apply cursor-pointer
