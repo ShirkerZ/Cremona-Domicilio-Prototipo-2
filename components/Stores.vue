@@ -393,10 +393,13 @@ export default {
         justify-center
         items-center
         min-w-max
-        h-8
-        w-8
+        text-dark-cremona-domicilio
+        text-lg
+        h-10
+        w-10
         outline-none
-        opacity-50
+        opacity-30
+        transition-opacity
         hover:opacity-100;
     }
     .current {
@@ -634,7 +637,8 @@ export default {
       rounded-full
       outline-none
       border-none
-      p-4
+      py-3
+      px-6
       my-8
       max-w-max
       transition-colors
