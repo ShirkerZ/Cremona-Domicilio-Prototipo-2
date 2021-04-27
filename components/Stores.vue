@@ -1,127 +1,141 @@
 <template>
   <div class="last-stores">
-    <!-- IF 2 MUNICIPALITIES -->
-    <h3 v-if="$nuxt.context.route.params.municipality && selectedMunicipality">
-      {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-      <span class="store-number"> ({{ getMunicipality.stores_number }})</span>
-      <h6>
-        {{ $t("stores.storesThatDeliveryIn") }}:
-        <span>{{ selectedMunicipality.title }}</span>
-      </h6>
-    </h3>
-    <!-- IF CATEGORY -->
-    <h3 v-else-if="getCategory">
-      {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }} ({{
-        getCategory.stores_number
-      }})
-      <h6 v-if="selectedMunicipality">
-        {{ $t("stores.storesThatDeliveryIn") }}
-        <span>{{ selectedMunicipality.title }}</span>
-      </h6>
-    </h3>
-
-    <!-- IF PARAMS MUNICIPALITY -->
-    <h3 v-else-if="$nuxt.context.route.params.municipality && getMunicipality">
-      {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-    </h3>
-
-    <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
-    <h3 v-else-if="selectedMunicipality">
-      {{ $t("stores.allShops") }}
-      <span class="store-number">
-        ({{ selectedMunicipality.stores_number }})
-      </span>
-      <h6>
-        {{ $t("stores.storesThatDeliveryIn") }}:
-        <span>{{ selectedMunicipality.title }}</span>
-      </h6>
-    </h3>
-
-    <!-- IF IN HOME -->
-    <h3
-      v-else-if="
-        $nuxt.context.route.path !== localePath('categories-category') ||
-        $nuxt.context.route.path === '/'
-      "
-    >
-      {{ $t("stores.lastStores") }}
-      <span>{{
-        selectedMunicipality ? selectedMunicipality.title : $t("zones.allZones")
-      }}</span>
-    </h3>
 
     <div v-if="$fetchState.pending">
       <div class="skeleton-container">
-        <div class="skeleton">
-          <main>
-            <div class="avatar"></div>
-            <h3>Lorem, ipsum dolor.</h3>
-            <p class="summary">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Consectetur modi tempore deserunt error voluptas nulla aliquam est
-              incidunt voluptate vero.
-            </p>
-          </main>
+        <div class="skeleton-header">
+          <div class="skeleton-title">Lorem ipsum dolor sit amet.</div>
+          <div class="skeleton-subtitle">Lorem, ipsum dolor.</div>
         </div>
-        <div class="skeleton">
-          <main>
-            <div class="avatar"></div>
-            <h3>Lorem, ipsum dolor.</h3>
-            <p class="summary">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Consectetur modi tempore deserunt error voluptas nulla aliquam est
-              incidunt voluptate vero.
-            </p>
-          </main>
-        </div>
-        <div class="skeleton">
-          <main>
-            <div class="avatar"></div>
-            <h3>Lorem, ipsum dolor.</h3>
-            <p class="summary">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Consectetur modi tempore deserunt error voluptas nulla aliquam est
-              incidunt voluptate vero.
-            </p>
-          </main>
-        </div>
-        <div class="skeleton">
-          <main>
-            <div class="avatar"></div>
-            <h3>Lorem, ipsum dolor.</h3>
-            <p class="summary">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Consectetur modi tempore deserunt error voluptas nulla aliquam est
-              incidunt voluptate vero.
-            </p>
-          </main>
-        </div>
-        <div class="skeleton">
-          <main>
-            <div class="avatar"></div>
-            <h3>Lorem, ipsum dolor.</h3>
-            <p class="summary">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Consectetur modi tempore deserunt error voluptas nulla aliquam est
-              incidunt voluptate vero.
-            </p>
-          </main>
-        </div>
-        <div class="skeleton">
-          <main>
-            <div class="avatar"></div>
-            <h3>Lorem, ipsum dolor.</h3>
-            <p class="summary">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Consectetur modi tempore deserunt error voluptas nulla aliquam est
-              incidunt voluptate vero.
-            </p>
-          </main>
+
+        <div class="skeleton-cards-container">
+          <div class="skeleton">
+            <main>
+              <div class="avatar"></div>
+              <div class="title">Lorem, ipsum dolor.</div>
+              <p class="summary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consectetur modi tempore deserunt error voluptas nulla aliquam
+                est incidunt voluptate vero.
+              </p>
+            </main>
+          </div>
+          <div class="skeleton">
+            <main>
+              <div class="avatar"></div>
+              <div class="title">Lorem, ipsum dolor.</div>
+              <p class="summary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consectetur modi tempore deserunt error voluptas nulla aliquam
+                est incidunt voluptate vero.
+              </p>
+            </main>
+          </div>
+          <div class="skeleton">
+            <main>
+              <div class="avatar"></div>
+              <div class="title">Lorem, ipsum dolor.</div>
+              <p class="summary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consectetur modi tempore deserunt error voluptas nulla aliquam
+                est incidunt voluptate vero.
+              </p>
+            </main>
+          </div>
+          <div class="skeleton">
+            <main>
+              <div class="avatar"></div>
+              <div class="title">Lorem, ipsum dolor.</div>
+              <p class="summary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consectetur modi tempore deserunt error voluptas nulla aliquam
+                est incidunt voluptate vero.
+              </p>
+            </main>
+          </div>
+          <div class="skeleton">
+            <main>
+              <div class="avatar"></div>
+              <div class="title">Lorem, ipsum dolor.</div>
+              <p class="summary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consectetur modi tempore deserunt error voluptas nulla aliquam
+                est incidunt voluptate vero.
+              </p>
+            </main>
+          </div>
+          <div class="skeleton">
+            <main>
+              <div class="avatar"></div>
+              <div class="title">Lorem, ipsum dolor.</div>
+              <p class="summary">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consectetur modi tempore deserunt error voluptas nulla aliquam
+                est incidunt voluptate vero.
+              </p>
+            </main>
+          </div>
         </div>
       </div>
     </div>
     <div class="content" v-else>
-      <div v-if="filteredStores.length">
+      <!-- IF 2 MUNICIPALITIES -->
+      <h3
+        v-if="$nuxt.context.route.params.municipality && selectedMunicipality"
+      >
+        {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
+        <span class="store-number"> ({{ getMunicipality.stores_number }})</span>
+        <h6>
+          {{ $t("stores.storesThatDeliveryIn") }}:
+          <span>{{ selectedMunicipality.title }}</span>
+        </h6>
+      </h3>
+      <!-- IF CATEGORY -->
+      <h3 v-else-if="getCategory">
+        {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }} ({{
+          getCategory.stores_number
+        }})
+        <h6 v-if="selectedMunicipality">
+          {{ $t("stores.storesThatDeliveryIn") }}
+          <span>{{ selectedMunicipality.title }}</span>
+        </h6>
+      </h3>
+
+      <!-- IF PARAMS MUNICIPALITY -->
+      <h3
+        v-else-if="$nuxt.context.route.params.municipality && getMunicipality"
+      >
+        {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
+      </h3>
+
+      <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
+      <h3 v-else-if="selectedMunicipality">
+        {{ $t("stores.allShops") }}
+        <span class="store-number">
+          ({{ selectedMunicipality.stores_number }})
+        </span>
+        <h6>
+          {{ $t("stores.storesThatDeliveryIn") }}:
+          <span>{{ selectedMunicipality.title }}</span>
+        </h6>
+      </h3>
+
+      <!-- IF IN HOME -->
+      <h3
+        v-else-if="
+          $nuxt.context.route.path !== localePath('categories-category') ||
+          $nuxt.context.route.path === '/'
+        "
+      >
+        {{ $t("stores.lastStores") }}
+        <span>{{
+          selectedMunicipality
+            ? selectedMunicipality.title
+            : $t("zones.allZones")
+        }}</span>
+      </h3>
+
+      <div v-if="filteredStores">
         <div class="card-container">
           <div class="card" v-for="store of paginate" :key="store.slug">
             <nuxt-link
@@ -236,6 +250,8 @@
 import { mapState } from "vuex";
 
 export default {
+  fetchOnServer: false,
+
   data() {
     return {
       currentPage: 1,
@@ -273,7 +289,7 @@ export default {
 
   async fetch() {
     const storesData = await fetch(
-      `https://json.domicilio.dev.dueper.net/stores.json`
+      `http://json.domicilio.dev.dueper.net/stores.json`
     ).then((res) => res.json());
     this.$store.commit("updateStores", storesData);
   },
@@ -411,7 +427,33 @@ export default {
   }
 
   .skeleton-container {
-    @apply w-screen
+    @apply animate-pulse;
+
+    .skeleton-header {
+      @apply my-8;
+
+      .skeleton-title {
+        @apply text-2xl
+        rounded
+        max-w-max
+        text-transparent
+        bg-gray-200
+        md:text-4xl;
+      }
+
+      .skeleton-subtitle {
+        @apply text-lg
+        text-transparent
+        my-2
+        max-w-max
+        bg-gray-200
+        rounded
+        md:text-2xl;
+      }
+    }
+
+    .skeleton-cards-container {
+      @apply w-screen
       py-8
       px-4
       flex-col
@@ -422,9 +464,8 @@ export default {
       lg:grid-cols-3
       lg:px-0;
 
-    .skeleton {
-      @apply animate-pulse
-      bg-gray-100
+      .skeleton {
+        @apply bg-gray-100
         shadow-md
         rounded
         flex
@@ -437,28 +478,29 @@ export default {
         md:my-0
         md:mx-0;
 
-      main {
-        .avatar {
-          @apply w-12
+        main {
+          .avatar {
+            @apply w-12
           h-12
           rounded-full
           bg-gray-200;
-        }
-        h3 {
-          @apply text-lg
+          }
+          .title {
+            @apply text-lg
           my-4
           rounded
           text-transparent
           bg-gray-200
           max-w-max;
-        }
-        .summary {
-          @apply w-full
+          }
+          .summary {
+            @apply w-full
           rounded
             text-transparent
             leading-5
             text-xs
             bg-gray-200;
+          }
         }
       }
     }
@@ -572,11 +614,10 @@ export default {
     }
 
     .shop-not-found {
-      @apply
-        text-center;
+      @apply text-center;
     }
   }
-  
+
   span {
     @apply mx-auto
     w-full;

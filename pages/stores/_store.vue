@@ -301,6 +301,8 @@
 
 <script>
 export default {
+  fetchOnServer: false,
+
   data() {
     return {
       store: null,
@@ -351,8 +353,7 @@ export default {
   }
 
   .skeleton {
-    @apply 
-      animate-pulse
+    @apply animate-pulse
       p-4
       w-screen
       md:py-12;
@@ -427,8 +428,7 @@ export default {
 
     .store-header {
       img {
-        @apply
-            w-24
+        @apply w-24
             h-24
             rounded-full
             my-8;
@@ -667,8 +667,7 @@ export default {
             ul {
               display: grid;
               grid-template-columns: repeat(auto-fit, minmax(32%, 1fr));
-              @apply 
-                list-none
+              @apply list-none
                 px-0
                 gap-4
                 justify-between;

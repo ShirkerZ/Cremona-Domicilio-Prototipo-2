@@ -68,6 +68,8 @@
 import { mapState } from "vuex";
 
 export default {
+  fetchOnServer: false,
+
   computed: {
     ...mapState(["selectedMunicipality", "stores", "categories"]),
   },
@@ -100,17 +102,13 @@ export default {
     }
   }
 
-
   .skeleton {
-
     .skeleton-categories {
-      @apply
-        flex
+      @apply flex
         flex-wrap;
 
-        .skeleton-category {
-          @apply
-            animate-pulse
+      .skeleton-category {
+        @apply animate-pulse
             flex
             items-center
             bg-gray-200
@@ -123,10 +121,9 @@ export default {
             lg:text-xl
             lg:px-6
             lg:py-2;
-        }
+      }
     }
   }
-
 
   .link-container {
     @apply flex
