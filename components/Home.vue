@@ -45,7 +45,7 @@ export default {
     md:mt-0
     md:w-full
     lg:w-screen
-    lg:h-60vh
+    lg:h-70vh
     lg:pt-12
     2xl:h-40vh;
 

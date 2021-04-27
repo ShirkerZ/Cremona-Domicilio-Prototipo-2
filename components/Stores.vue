@@ -412,10 +412,9 @@ export default {
   h3 {
     @apply text-dark-cremona-domicilio
       text-2xl
-      font-medium
+      font-bold
       my-8
-      md:text-4xl
-      md:font-bold;
+      md:text-4xl;
 
     span {
       @apply text-green-cremona-domicilio
@@ -520,18 +519,13 @@ export default {
 
     .card-container {
       @apply flex
-      flex-nowrap
-      overflow-x-scroll
       py-8
-      px-4
-      w-screen
       flex-col
-      md:w-full
+      w-full
       md:grid
       md:grid-cols-2
       md:gap-8
-      lg:grid-cols-3
-      lg:px-0;
+      lg:grid-cols-3;
 
       .card {
         @apply cursor-pointer
@@ -540,7 +534,7 @@ export default {
         p-6
         shadow-md
         rounded 
-        min-w-full
+        w-full
         flex
         flex-col
         justify-between
