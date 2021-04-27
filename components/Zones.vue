@@ -63,9 +63,9 @@ export default {
   },
 
   async fetch() {
-    const municipalitiesData = await fetch(`http://json.domicilio.dev.dueper.net/municipality.json`).then((res) =>
-      res.json()
-    );
+    const municipalitiesData = await fetch(
+      `http://json.domicilio.dev.dueper.net/municipality.json`
+    ).then((res) => res.json());
     this.$store.commit("updateZones", municipalitiesData);
   },
 
@@ -98,6 +98,7 @@ export default {
         query: { municipality: this.selected },
       });
       this.closeOverlay();
+      scrollTo(0, 0);
     },
   },
 
