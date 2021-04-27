@@ -395,7 +395,9 @@ export default {
             h-5;
 
           path {
-            fill: #fdcd2f;
+            @apply
+              fill-current
+              text-yellow-cremona-domicilio;
           }
         }
       }
@@ -451,7 +453,9 @@ export default {
           .icon {
             svg {
               path {
-                fill: #49c4a0;
+                @apply
+                  text-green-cremona-domicilio
+                  fill-current;
               }
             }
           }
