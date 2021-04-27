@@ -1,13 +1,18 @@
 <template>
   <div class="type">
-    <h3 v-if="$nuxt.context.route.name !== 'stores-store'">
+    <h3 v-if="!$route.name.includes('stores')">
       {{ $t("categories.storeType") }}
       <span>{{
         selectedMunicipality ? selectedMunicipality.title : $t("zones.allZones")
       }}</span
       >?
     </h3>
-    <h3 v-else>{{ $t("categories.lookingForMore") }} ?</h3>
+    <h3 class="for-more" v-else>{{ $t("categories.lookingForMore") }}:
+      <span>
+        {{selectedMunicipality && selectedMunicipality.title}} 
+      </span>
+      ?
+    </h3>
 
     <div v-if="$fetchState.pending">
       <div class="skeleton">
@@ -94,12 +99,18 @@ export default {
   h3 {
     @apply text-2xl
         font-bold
+        text-dark-cremona-domicilio
         my-8
         md:text-3xl;
 
     span {
       @apply text-green-cremona-domicilio;
     }
+  }
+
+  .for-more {
+    @apply
+      text-xl;
   }
 
   .skeleton {
