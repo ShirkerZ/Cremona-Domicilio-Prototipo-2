@@ -309,9 +309,9 @@ export default {
 
   computed: {
     deliveryData() {
-      let delivery_zone = null;
-      if (delivery_zone) {
-        return this.store.delivery[delivery_zone];
+      let user_zone = null;
+      if (user_zone) {
+        return this.store.delivery[user_zone];
       }
 
       return this.store.delivery[0];
