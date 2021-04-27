@@ -65,7 +65,7 @@ export default {
 
     h1 {
       @apply text-3xl
-        font-medium
+        font-bold
         mx-4
         md:text-4xl
         md:px-20

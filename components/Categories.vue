@@ -93,7 +93,7 @@ export default {
 
   h3 {
     @apply text-2xl
-        font-medium
+        font-bold
         my-8
         md:text-3xl;
 

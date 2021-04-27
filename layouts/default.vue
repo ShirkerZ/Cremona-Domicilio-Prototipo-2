@@ -10,11 +10,7 @@
 
 <script>
 export default {
-  //  scrollToTop not work with html,body with height 100vh
   scrollToTop: true,
-  // mounted() {
-  //   this.$store.dispatch("fetchDati");
-  // },
 };
 </script>
 

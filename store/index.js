@@ -80,8 +80,6 @@ export const mutations = {
                     localStorage.setItem("municipality", state.selectedMunicipality.slug)
                 }, 1000)
             }
-        } else {
-            console.log('Nope')
         }
     },
 

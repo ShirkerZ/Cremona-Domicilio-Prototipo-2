@@ -79,9 +79,19 @@
     </div>
     <div class="content" v-else>
       <div class="header">
+        <!-- IF IN HOME -->
+        <h3 v-if="$route.name.includes('index')">
+          {{ $t("stores.lastStores") }}
+          <span>{{
+            selectedMunicipality
+              ? selectedMunicipality.title
+              : $t("zones.allZones")
+          }}</span>
+        </h3>
+
         <!-- IF 2 MUNICIPALITIES -->
         <h3
-          v-if="$nuxt.context.route.params.municipality && selectedMunicipality"
+          v-else-if="$nuxt.context.route.params.municipality && selectedMunicipality"
         >
           {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
           <span class="store-number">
@@ -92,6 +102,7 @@
             <span>{{ selectedMunicipality.title }}</span>
           </h6>
         </h3>
+
         <!-- IF CATEGORY -->
         <h3 v-else-if="getCategory">
           {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }}
@@ -119,21 +130,6 @@
             {{ $t("stores.storesThatDeliveryIn") }}:
             <span>{{ selectedMunicipality.title }}</span>
           </h6>
-        </h3>
-
-        <!-- IF IN HOME -->
-        <h3
-          v-else-if="
-            $nuxt.context.route.path !== localePath('categories-category') ||
-            $nuxt.context.route.path === '/'
-          "
-        >
-          {{ $t("stores.lastStores") }}
-          <span>{{
-            selectedMunicipality
-              ? selectedMunicipality.title
-              : $t("zones.allZones")
-          }}</span>
         </h3>
       </div>
 
@@ -385,6 +381,7 @@ export default {
   .pagination {
     @apply flex
         justify-center
+        max-w-max
         items-center
         mx-auto;
 
@@ -392,7 +389,6 @@ export default {
       @apply rounded-full
             py-2
             px-4
-            mx-2
             outline-none
             opacity-50
             hover:opacity-100;
