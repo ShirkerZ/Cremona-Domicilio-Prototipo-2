@@ -2,13 +2,13 @@
   <div class="navbar">
     <nav>
       <div class="logo">
-        <nuxt-link :to="localePath('index')">{{ $t("navbar.logo") }}</nuxt-link>
+        <nuxt-link :to="localePath('index')" exact>{{ $t("navbar.logo") }}</nuxt-link>
       </div>
       <LanguageSwitch />
       <div class="main-nav">
         <ul class="desktop-navbar">
           <li>
-            <nuxt-link :to="localePath('index')">{{
+            <nuxt-link :to="localePath('index')" exact>{{
               $t("navbar.home")
             }}</nuxt-link>
           </li>
@@ -48,7 +48,7 @@
           </nuxt-link>
         </li>
         <li>
-          <nuxt-link :to="localePath('index')">
+          <nuxt-link :to="localePath('index')" exact>
             <div class="icon"><i class="fas fa-search"></i></div>
             <p>{{ $t("home.search") }}</p>
           </nuxt-link>
@@ -71,7 +71,7 @@
       <div class="menu" ref="menu">
         <ul class="main-links" @click="closeMenu">
           <li>
-            <nuxt-link :to="localePath('index')">
+            <nuxt-link :to="localePath('index')" exact>
               {{ $t("navbar.home") }}
             </nuxt-link>
           </li>
@@ -216,7 +216,7 @@ export default {
           transition-colors
           hover:text-opacity-50;
 
-          &.nuxt-link-exact-active::before {
+          &.nuxt-link-active::before {
             content: "";
             @apply absolute
             -bottom-3
@@ -235,7 +235,7 @@ export default {
           rounded-full
           hover:bg-yellow-cremona-domicilio;
 
-          &.nuxt-link-exact-active::before {
+          &.nuxt-link-active::before {
             @apply hidden;
           }
         }
