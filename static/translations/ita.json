@@ -23,10 +23,11 @@
     },
     "stores": {
         "lastStores": "Ultimi negozi aggiunti in:",
-        "storesDeliveryIn": "Negozi che consegnano in",
-        "storesThatDeliveryIn": "Che consegnano a",
+        "allShops": "Tutti i Negozi",
+        "storesDeliveryIn": "Negozi che consegnano a",
+        "storesThatDeliveryIn": "Che consegnano in",
         "storesCategoryIn": "Negozi di",
-        "allShops": "Vedi tutti i negozi in"
+        "allShopsIn": "Vedi tutti i negozi in"
     },
     "categories": {
         "storeType": "Che tipo di negozio stai cercando in:",

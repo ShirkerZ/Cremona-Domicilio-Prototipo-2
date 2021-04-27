@@ -23,10 +23,11 @@
     },
     "stores": {
         "lastStores": "What kind of store are you looking for in:",
+        "allShops": "All shops",
         "storesDeliveryIn": "Shops that deliver in",
         "storesThatDeliveryIn": "That deliver in",
         "storesCategoryIn": "Shops search form",
-        "allShops": "All Shops in"
+        "allShopsIn": "All Shops in"
     },
     "categories": {
         "storeType": "What kind of store are you looking for in:",
