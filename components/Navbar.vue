@@ -194,10 +194,10 @@
         <li>
           <button @click="toggleMenu">
             <div class="icon">
-              <span class="hamburger">
-                <div></div>
-                <div></div>
-                <div></div>
+              <span ref="hamburger" class="hamburger">
+                <div class="rec rec-a"></div>
+                <div class="rec rec-b"></div>
+                <div class="rec rec-c"></div>
               </span>
             </div>
             <p>Menu</p>
@@ -271,19 +271,39 @@ export default {
       if (!this.menuOpen) {
         this.$nextTick(() => {
           this.$gsap.to(".menu", 0.5, { left: 0 });
+          //  hamburger animation open
+          const tl1 = this.$gsap.timeline();
+          tl1.to(".rec-b", 0.2, { scaleX: 0, transformOrigin: "centers" });
+          tl1.to(".rec-b", 0.1, { height: 0 });
+          tl1.set(".rec-b", { display: "none" });
+          tl1.to(".rec-a", 0.3, { rotate: 45 });
+          tl1.to(".rec-c", 0.3, { rotate: -45 }, "-=.3");
         });
       } else {
         this.$nextTick(() => {
           this.$gsap.to(".menu", 0.5, { left: "100%" });
+          //  hamburger animation close
+          const tl1 = this.$gsap.timeline();
+          tl1.set(".rec-b", { display: "flex" });
+          tl1.to(".rec-a", 0.3, { rotate: 0 });
+          tl1.to(".rec-c", 0.3, { rotate: 0 }, "-=.3");
+          tl1.to(".rec-b", 0.1, { height: "0.125em" }, "-=.2");
+          tl1.to(".rec-b", 0.2, { scaleX: 1 }, "-=.2");
         });
       }
       this.menuOpen = !this.menuOpen;
     },
 
     closeMenu() {
-      console.log("Cloes?");
       this.$nextTick(() => {
         this.$gsap.to(".menu", 0.5, { left: "100%" });
+          //  hamburger animation close
+          const tl1 = this.$gsap.timeline();
+          tl1.set(".rec-b", { display: "flex" });
+          tl1.to(".rec-a", 0.3, { rotate: 0 });
+          tl1.to(".rec-c", 0.3, { rotate: 0 }, "-=.3");
+          tl1.to(".rec-b", 0.1, { height: "0.125em" }, "-=.2");
+          tl1.to(".rec-b", 0.2, { scaleX: 1 }, "-=.2");
       });
       this.menuOpen = false;
     },
@@ -395,8 +415,7 @@ export default {
             h-5;
 
           path {
-            @apply
-              fill-current
+            @apply fill-current
               text-yellow-cremona-domicilio;
           }
         }
@@ -453,8 +472,7 @@ export default {
           .icon {
             svg {
               path {
-                @apply
-                  text-green-cremona-domicilio
+                @apply text-green-cremona-domicilio
                   fill-current;
               }
             }
