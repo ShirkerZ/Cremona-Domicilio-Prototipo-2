@@ -14,7 +14,7 @@
     <div class="steps">
       <ul>
         <li :class="{ active: step === 1 }">
-          <p><span> 1</span>Informazioni personali</p>
+          <p><span>1</span>Informazioni personali</p>
         </li>
         <li :class="{ active: step === 2 }">
           <p><span>2</span>Informazioni sul negozio/servizio</p>
@@ -432,6 +432,7 @@ export default {
           my-2
           text-gray-cremona-domicilio
           opacity-50;
+
         span {
           @apply rounded-full
             bg-gray-cremona-domicilio

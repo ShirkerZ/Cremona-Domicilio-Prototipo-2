@@ -38,12 +38,14 @@
               ? selectedMunicipality.title
               : $t("zones.allZones")
           }}
-          <div class="icon"><i class="fas fa-angle-down"></i></div>
+          <img src="~/assets/images/arrow-down.svg" alt="" />
         </strong>
       </div>
       <div v-if="!isOpen" class="change-zone">
         <button @click="isOpen = true">
-          <i class="fas fa-sync-alt"></i>{{ $t("zones.changeZone") }}
+          <img src="~/assets/images/arrow-circle.svg" alt="" />{{
+            $t("zones.changeZone")
+          }}
         </button>
       </div>
     </div>
@@ -161,14 +163,15 @@ export default {
 
       .selected {
         @apply flex
+        items-center
         text-yellow-cremona-domicilio
         text-lg
         cursor-pointer;
 
-        .icon {
-          @apply ml-4
-          font-thin
-          text-green-cremona-domicilio;
+        img {
+          @apply w-4
+            h-4
+            ml-4;
         }
       }
     }
@@ -182,21 +185,23 @@ export default {
         bg-gray-900
         bg-opacity-50
         rounded-full
+        flex
+        flex-row
         p-2
         px-4
         text-xs
         transition-colors
-        table-row-group
         outline-none
         hover:bg-white
         hover:text-purple-cremona-domicilio;
 
-        i {
+        img {
           @apply mr-2
-          text-yellow-cremona-domicilio;
+            w-4
+            h-4;
         }
 
-        &:hover i {
+        &:hover img {
           transition: all 0.5s ease;
           transform: rotate(180deg);
         }
