@@ -522,7 +522,7 @@ export default {
         }
       }
 
-      a.nuxt-link-exact-active {
+      a.nuxt-link-active {
         @apply text-green-cremona-domicilio;
       }
     }
