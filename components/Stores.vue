@@ -1,248 +1,256 @@
 <template>
   <div class="stores">
-    <div v-if="$fetchState.pending">
-      <div class="skeleton-container">
-        <div class="skeleton-header">
-          <div class="skeleton-title">Lorem ipsum dolor sit amet.</div>
-          <div class="skeleton-subtitle">Lorem, ipsum dolor.</div>
-        </div>
-
-        <div class="skeleton-cards-container">
-          <div class="skeleton">
-            <main>
-              <div class="avatar"></div>
-              <div class="title">Lorem, ipsum dolor.</div>
-              <p class="summary">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Consectetur modi tempore deserunt error voluptas nulla aliquam
-                est incidunt voluptate vero.
-              </p>
-            </main>
+    <transition appear  name="skeleton-anim">
+      <div v-if="$fetchState.pending" key="skeleton">
+        <div class="skeleton-container">
+          <div class="skeleton-header">
+            <transition name="skeleton-anim">
+              <div class="skeleton-title">Lorem ipsum dolor sit amet.</div>
+            </transition>
+            <div class="skeleton-subtitle">Lorem, ipsum dolor.</div>
           </div>
-          <div class="skeleton">
-            <main>
-              <div class="avatar"></div>
-              <div class="title">Lorem, ipsum dolor.</div>
-              <p class="summary">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Consectetur modi tempore deserunt error voluptas nulla aliquam
-                est incidunt voluptate vero.
-              </p>
-            </main>
-          </div>
-          <div class="skeleton">
-            <main>
-              <div class="avatar"></div>
-              <div class="title">Lorem, ipsum dolor.</div>
-              <p class="summary">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Consectetur modi tempore deserunt error voluptas nulla aliquam
-                est incidunt voluptate vero.
-              </p>
-            </main>
-          </div>
-          <div class="skeleton">
-            <main>
-              <div class="avatar"></div>
-              <div class="title">Lorem, ipsum dolor.</div>
-              <p class="summary">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Consectetur modi tempore deserunt error voluptas nulla aliquam
-                est incidunt voluptate vero.
-              </p>
-            </main>
-          </div>
-          <div class="skeleton">
-            <main>
-              <div class="avatar"></div>
-              <div class="title">Lorem, ipsum dolor.</div>
-              <p class="summary">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Consectetur modi tempore deserunt error voluptas nulla aliquam
-                est incidunt voluptate vero.
-              </p>
-            </main>
-          </div>
-          <div class="skeleton">
-            <main>
-              <div class="avatar"></div>
-              <div class="title">Lorem, ipsum dolor.</div>
-              <p class="summary">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Consectetur modi tempore deserunt error voluptas nulla aliquam
-                est incidunt voluptate vero.
-              </p>
-            </main>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="content" v-else>
-      <div class="header">
-        <!-- IF IN HOME -->
-        <h3 v-if="$route.name.includes('index')">
-          {{ $t("stores.lastStores") }}
-          <span>{{
-            selectedMunicipality
-              ? selectedMunicipality.title
-              : $t("zones.allZones")
-          }}</span>
-        </h3>
 
-        <!-- IF 2 MUNICIPALITIES -->
-        <h3
-          v-else-if="
-            $nuxt.context.route.params.municipality && selectedMunicipality
-          "
-        >
-          {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-          <span class="store-number">
-            ({{ getMunicipality.stores_number }})</span
-          >
-          <h6>
-            {{ $t("stores.storesThatDeliveryIn") }}:
-            <span>{{ selectedMunicipality.title }}</span>
-          </h6>
-        </h3>
-
-        <!-- IF CATEGORY -->
-        <h3 v-else-if="getCategory">
-          {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }}
-          <span class="store-number">({{ getCategory.stores_number }})</span>
-          <h6 v-if="selectedMunicipality">
-            {{ $t("stores.storesThatDeliveryIn") }}
-            <span>{{ selectedMunicipality.title }}</span>
-          </h6>
-        </h3>
-
-        <!-- IF PARAMS MUNICIPALITY -->
-        <h3
-          v-else-if="$nuxt.context.route.params.municipality && getMunicipality"
-        >
-          {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-        </h3>
-
-        <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
-        <h3 v-else-if="selectedMunicipality">
-          {{ $t("stores.allShops") }}
-          <span class="store-number">
-            ({{ selectedMunicipality.stores_number }})
-          </span>
-          <h6>
-            {{ $t("stores.storesThatDeliveryIn") }}:
-            <span>{{ selectedMunicipality.title }}</span>
-          </h6>
-        </h3>
-      </div>
-
-      <div v-if="filteredStores.length">
-        <div class="card-container">
-          <div class="card" v-for="store of paginate" :key="store.slug">
-            <nuxt-link
-              :to="
-                localePath({
-                  name: 'stores-store',
-                  params: { store: store.slug },
-                })
-              "
-            >
+          <div class="skeleton-cards-container">
+            <div class="skeleton">
               <main>
-                <img class="avatar" :src="store.logo" />
-                <h3>{{ store.title }}</h3>
-                <p class="summary" v-html="store.description" />
+                <div class="avatar"></div>
+                <div class="title">Lorem, ipsum dolor.</div>
+                <p class="summary">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Consectetur modi tempore deserunt error voluptas nulla aliquam
+                  est incidunt voluptate vero.
+                </p>
               </main>
-              <footer>
-                <ul v-if="store.delivery.length">
-                  <li
-                    v-for="(cost, index) in store.delivery[0].config"
-                    :key="index"
-                  >
-                    <span
-                      class="free-delivery"
-                      v-if="cost.minimum_expense > 0 && cost.delivery_cost == 0"
+            </div>
+            <div class="skeleton">
+              <main>
+                <div class="avatar"></div>
+                <div class="title">Lorem, ipsum dolor.</div>
+                <p class="summary">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Consectetur modi tempore deserunt error voluptas nulla aliquam
+                  est incidunt voluptate vero.
+                </p>
+              </main>
+            </div>
+            <div class="skeleton">
+              <main>
+                <div class="avatar"></div>
+                <div class="title">Lorem, ipsum dolor.</div>
+                <p class="summary">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Consectetur modi tempore deserunt error voluptas nulla aliquam
+                  est incidunt voluptate vero.
+                </p>
+              </main>
+            </div>
+            <div class="skeleton">
+              <main>
+                <div class="avatar"></div>
+                <div class="title">Lorem, ipsum dolor.</div>
+                <p class="summary">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Consectetur modi tempore deserunt error voluptas nulla aliquam
+                  est incidunt voluptate vero.
+                </p>
+              </main>
+            </div>
+            <div class="skeleton">
+              <main>
+                <div class="avatar"></div>
+                <div class="title">Lorem, ipsum dolor.</div>
+                <p class="summary">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Consectetur modi tempore deserunt error voluptas nulla aliquam
+                  est incidunt voluptate vero.
+                </p>
+              </main>
+            </div>
+            <div class="skeleton">
+              <main>
+                <div class="avatar"></div>
+                <div class="title">Lorem, ipsum dolor.</div>
+                <p class="summary">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Consectetur modi tempore deserunt error voluptas nulla aliquam
+                  est incidunt voluptate vero.
+                </p>
+              </main>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content" v-else key="content">
+        <div class="header">
+          <!-- IF IN HOME -->
+          <h3 v-if="$route.name.includes('index')">
+            {{ $t("stores.lastStores") }}
+            <span>{{
+              selectedMunicipality
+                ? selectedMunicipality.title
+                : $t("zones.allZones")
+            }}</span>
+          </h3>
+
+          <!-- IF 2 MUNICIPALITIES -->
+          <h3
+            v-else-if="
+              $nuxt.context.route.params.municipality && selectedMunicipality
+            "
+          >
+            {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
+            <span class="store-number">
+              ({{ getMunicipality.stores_number }})</span
+            >
+            <h6>
+              {{ $t("stores.storesThatDeliveryIn") }}:
+              <span>{{ selectedMunicipality.title }}</span>
+            </h6>
+          </h3>
+
+          <!-- IF CATEGORY -->
+          <h3 v-else-if="getCategory">
+            {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }}
+            <span class="store-number">({{ getCategory.stores_number }})</span>
+            <h6 v-if="selectedMunicipality">
+              {{ $t("stores.storesThatDeliveryIn") }}
+              <span>{{ selectedMunicipality.title }}</span>
+            </h6>
+          </h3>
+
+          <!-- IF PARAMS MUNICIPALITY -->
+          <h3
+            v-else-if="
+              $nuxt.context.route.params.municipality && getMunicipality
+            "
+          >
+            {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
+          </h3>
+
+          <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
+          <h3 v-else-if="selectedMunicipality">
+            {{ $t("stores.allShops") }}
+            <span class="store-number">
+              ({{ selectedMunicipality.stores_number }})
+            </span>
+            <h6>
+              {{ $t("stores.storesThatDeliveryIn") }}:
+              <span>{{ selectedMunicipality.title }}</span>
+            </h6>
+          </h3>
+        </div>
+
+        <div v-if="filteredStores.length">
+          <div class="card-container">
+            <div class="card" v-for="store of paginate" :key="store.slug">
+              <nuxt-link
+                :to="
+                  localePath({
+                    name: 'stores-store',
+                    params: { store: store.slug },
+                  })
+                "
+              >
+                <main>
+                  <img class="avatar" :src="store.logo" />
+                  <h3>{{ store.title }}</h3>
+                  <p class="summary" v-html="store.description" />
+                </main>
+                <footer>
+                  <ul v-if="store.delivery.length">
+                    <li
+                      v-for="(cost, index) in store.delivery[0].config"
+                      :key="index"
                     >
-                      Consegna Gratuita oltre {{ cost.minimum_expense }}€
-                    </span>
-                    <span class="delivery-cost" v-if="cost.delivery_cost > 0">
-                      Consegna {{ cost.delivery_cost }}€
-                    </span>
-                    <span
-                      class="free-delivery"
-                      v-else-if="
-                        cost.minimum_expense == 0 && cost.delivery_cost == 0
-                      "
+                      <span
+                        class="free-delivery"
+                        v-if="
+                          cost.minimum_expense > 0 && cost.delivery_cost == 0
+                        "
+                      >
+                        Consegna Gratuita oltre {{ cost.minimum_expense }}€
+                      </span>
+                      <span class="delivery-cost" v-if="cost.delivery_cost > 0">
+                        Consegna {{ cost.delivery_cost }}€
+                      </span>
+                      <span
+                        class="free-delivery"
+                        v-else-if="
+                          cost.minimum_expense == 0 && cost.delivery_cost == 0
+                        "
+                      >
+                        Consegna Gratutia
+                      </span>
+                    </li>
+                    <li
+                      class="card-categories"
+                      v-for="category of store.category"
+                      :key="category.slug"
                     >
-                      Consegna Gratutia
-                    </span>
-                  </li>
-                  <li
-                    class="card-categories"
-                    v-for="category of store.category"
-                    :key="category.slug"
-                  >
-                    {{ category.title }}
-                  </li>
-                </ul>
-              </footer>
-            </nuxt-link>
+                      {{ category.title }}
+                    </li>
+                  </ul>
+                </footer>
+              </nuxt-link>
+            </div>
+          </div>
+
+          <div
+            class="pagination"
+            v-if="
+              filteredStores.length > itemsPerPage &&
+              !$route.name.includes('index')
+            "
+          >
+            <button v-if="totalPages - currentPage < 1" @click="goToFirst">
+              &#171; First
+            </button>
+            <button v-if="currentPage !== 1" @click="goBack">&#171;</button>
+            <button
+              :class="{ current: currentPage === pageNumber }"
+              v-for="pageNumber in totalPages"
+              :key="pageNumber"
+              @click="setPage(pageNumber)"
+            >
+              {{ pageNumber }}
+            </button>
+            <button v-if="currentPage !== totalPages" @click="goForward">
+              &#187;
+            </button>
+            <button v-if="totalPages - currentPage > 1" @click="goToLast">
+              Last &#187;
+            </button>
           </div>
         </div>
 
-        <div
-          class="pagination"
-          v-if="
-            filteredStores.length > itemsPerPage &&
-            !$route.name.includes('index')
-          "
-        >
-          <button v-if="totalPages - currentPage < 1" @click="goToFirst">
-          &#171; First 
-          </button>
-          <button v-if="currentPage !== 1" @click="goBack">&#171;</button>
-          <button
-            :class="{ current: currentPage === pageNumber }"
-            v-for="pageNumber in totalPages"
-            :key="pageNumber"
-            @click="setPage(pageNumber)"
-          >
-            {{ pageNumber }}
-          </button>
-          <button v-if="currentPage !== totalPages" @click="goForward">
-            &#187;
-          </button>
-          <button v-if="totalPages - currentPage > 1" @click="goToLast">
-            Last &#187;
-          </button>
+        <div class="shop-not-found" v-else>
+          <p>Nessun negozio trovato...</p>
         </div>
-      </div>
 
-      <div class="shop-not-found" v-else>
-        <p>Nessun negozio trovato...</p>
+        <span v-if="$route.name.includes('index')">
+          <nuxt-link
+            v-if="selectedMunicipality"
+            class="btn-link"
+            :to="
+              localePath({
+                name: 'stores',
+                query: { municipality: selectedMunicipality.slug },
+              })
+            "
+            >{{ $t("stores.allShopsIn") }}
+            {{
+              selectedMunicipality
+                ? selectedMunicipality.title
+                : $t("zones.allZones")
+            }}
+          </nuxt-link>
+          <nuxt-link v-else class="btn-link" :to="localePath('stores')">
+            {{ $t("stores.allShopsIn") }}
+            {{ $t("zones.allZones") }}
+          </nuxt-link>
+        </span>
       </div>
-
-      <span v-if="$route.name.includes('index')">
-        <nuxt-link
-          v-if="selectedMunicipality"
-          class="btn-link"
-          :to="
-            localePath({
-              name: 'stores',
-              query: { municipality: selectedMunicipality.slug },
-            })
-          "
-          >{{ $t("stores.allShopsIn") }}
-          {{
-            selectedMunicipality
-              ? selectedMunicipality.title
-              : $t("zones.allZones")
-          }}
-        </nuxt-link>
-        <nuxt-link v-else class="btn-link" :to="localePath('stores')">
-          {{ $t("stores.allShopsIn") }}
-          {{ $t("zones.allZones") }}
-        </nuxt-link>
-      </span>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -257,6 +265,7 @@ export default {
       currentPage: 1,
       resultCount: 0,
       itemsPerPage: 12,
+      test: true,
     };
   },
 
@@ -367,6 +376,18 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.skeleton-anim-enter-active,
+.skeleton-anim-leave-active {
+  transition: opacity .3s ease;
+}
+
+.skeleton-anim-enter,
+.skeleton-anim-leave-to {
+opacity: 0;
+}
+</style>
 
 <style lang="scss" scoped>
 .stores {
