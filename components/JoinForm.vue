@@ -566,17 +566,21 @@ export default {
       border-red-cremona-domicilio
       border-opacity-80
       py-2;
+
     h3 {
       @apply text-red-cremona-domicilio #{!important}
           text-opacity-80;
+
       span {
         @apply text-red-cremona-domicilio #{!important}
               text-opacity-80;
       }
     }
+
     label {
       @apply text-red-900;
     }
+
     p {
       @apply text-dark-cremona-domicilio #{!important}
           text-sm #{!important};
