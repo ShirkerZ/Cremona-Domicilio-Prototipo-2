@@ -27,18 +27,25 @@
         </li>
       </ul>
     </div>
+    <div class="error-tab" :class="{ hide: !errorTab }">
+      <p>
+        C'è stato un errore con il tuo invio. Gli errori sono stati evidenziati
+        qui sotto.
+      </p>
+    </div>
     <form>
       <div v-if="step === 1" class="step step-1">
-        <h3>Nominativo <span>*</span></h3>
-        <div class="field-container full-name">
+        <div class="field-container full-name" :class="{ error: fullNameErr }">
           <div class="field">
-            <input name="name" type="text" />
+            <h3>Nominativo <span>*</span></h3>
+            <input v-model="name" name="name" type="text" />
             <label for="name">Nome</label>
             <p>Inserire nome e cognome di chi compila</p>
+            <div class="required">Questo campo è obbligatorio.</div>
           </div>
 
           <div class="field">
-            <input name="surname" type="text" />
+            <input v-model="surname" name="surname" type="text" />
             <label for="surname">Cognome</label>
           </div>
         </div>
@@ -46,36 +53,39 @@
         <div class="field-container contact-info">
           <div class="field">
             <h3>Telefono personale</h3>
-            <input name="phone" type="text" />
+            <input v-model="phone" name="phone" type="text" />
             <p>Inserire telefono personale di chi compila</p>
           </div>
 
-          <div class="field">
+          <div class="field" :class="{ error: emailErr }">
             <h3>Email personale <span>*</span></h3>
-            <input name="email" type="text" />
+            <input v-model="email" name="email" type="text" />
             <p>Inserire email personale di chi compila</p>
+            <div class="required">Questo campo è obbligatorio.</div>
           </div>
         </div>
       </div>
 
       <div v-if="step === 2" class="step step-2">
         <div class="field-container">
-          <div class="field">
+          <div class="field" :class="{ error: storeNameErr }">
             <h3>Nome del negozio/servizio <span>*</span></h3>
-            <input name="store-name" type="text" />
+            <input v-model="storeName" name="store-name" type="text" />
+            <div class="required">Questo campo è obbligatorio.</div>
           </div>
 
-          <div class="field">
+          <div class="field" :class="{ error: addressErr }">
             <h3>Indirizzo <span>*</span></h3>
-            <input name="address" type="text" />
+            <input v-model="address" name="address" type="text" />
             <p>Inserici anche il comune</p>
+            <div class="required">Questo campo è obbligatorio.</div>
           </div>
         </div>
 
         <div class="field-container">
           <div class="field">
             <h3>Telefono negozio/servizio</h3>
-            <input name="store-phone" type="text" />
+            <input v-model="storePhone" name="store-phone" type="text" />
             <p>
               Inserire il numero di telefono del negozio oppure quello dove
               ricevere gli ordini
@@ -84,7 +94,7 @@
 
           <div class="field">
             <h3>Email negozio/servizio</h3>
-            <input name="store-email" type="text" />
+            <input v-model="storeEmail" name="store-email" type="text" />
             <p>
               Inserire l'indirzzo email del negozio oppure quello dove ricevere
               gli ordini
@@ -103,13 +113,23 @@
         <div class="field-container">
           <div class="field">
             <h3>Sito web del negozio</h3>
-            <input name="web-site" type="text" placeholder="https://" />
+            <input
+              v-model="website"
+              name="web-site"
+              type="text"
+              placeholder="https://"
+            />
             <p>Inserire l'indirizzo del sito web del negozio/servizio</p>
           </div>
 
           <div class="field">
             <h3>Indirizzo pagina Facebook</h3>
-            <input name="facebook" type="text" placeholder="https://" />
+            <input
+              v-model="facebook"
+              name="facebook"
+              type="text"
+              placeholder="https://"
+            />
             <p>Inserire l'indirizzo della tua pagina Facebook</p>
           </div>
         </div>
@@ -117,7 +137,7 @@
         <div class="field-container">
           <div class="field">
             <h3>Numero di whatsapp</h3>
-            <input name="whatsapp" type="text" />
+            <input v-model="whatsapp" name="whatsapp" type="text" />
             <p>
               Inserire il numero di whatsapp che i clienti possono usare per
               contattarti. Anche se è lo stesso del "Numero di telefono"
@@ -127,15 +147,16 @@
         </div>
 
         <div class="field-container">
-          <div class="field">
+          <div class="field" :class="{ error: categoryErr }">
             <h3>Categoria merceologica <span>*</span></h3>
-            <select name="category">
+            <select v-model="category" name="category">
               <option value="veicoli">Veicoli</option>
               <option value="hobby-tempo-libero">Hobby/Tempo libero</option>
               <option value="bar">Bar</option>
               <option value="ristorazione">Ristorazione</option>
             </select>
             <p>Selezionare al massimo 4</p>
+            <div class="required">Questa campo è obbligatorio.</div>
           </div>
         </div>
       </div>
@@ -267,12 +288,14 @@
         </div>
       </div>
 
-      <p @click="goBack" v-if="step > 1" class="navigation previous">
-        Precedente
-      </p>
-      <p @click="goForward" v-if="step < 4" class="navigation next">
-        Successivo
-      </p>
+      <div class="navigation-container">
+        <div @click="goBack" v-if="step > 1" class="navigation previous">
+          Precedente
+        </div>
+        <div @click="validateForm" v-if="step < 4" class="navigation next">
+          Successivo
+        </div>
+      </div>
     </form>
   </div>
 </template>
@@ -282,11 +305,27 @@ export default {
   data() {
     return {
       step: 1,
+      name: "",
+      surname: "",
+      phone: "",
+      email: "",
+      storeName: "",
+      address: "",
+      storePhone: "",
+      storeEmail: "",
+      website: "",
+      facebook: "",
+      whatsapp: "",
+      category: "",
+      errorTab: false,
+      fullNameErr: false,
+      emailErr: false,
+      storeNameErr: false,
+      addressErr: false,
+      categoryErr: false,
     };
   },
-
   scrollToTop: true,
-
   methods: {
     goForward() {
       if (this.step < 4) {
@@ -294,12 +333,64 @@ export default {
       }
       scrollTo(0, 0);
     },
-
     goBack() {
       if (this.step > 0) {
         this.step--;
       }
       scrollTo(0, 0);
+    },
+    validateForm() {
+      switch (this.step) {
+        case 1:
+          if (this.name && this.surname && this.email) {
+            this.errorTab = false;
+            this.fullNameErr = false;
+            this.emailErr = false;
+            this.goForward();
+          } else {
+            if (!this.name || !this.surname) {
+              this.errorTab = true;
+              this.fullNameErr = true;
+            } else {
+              this.fullNameErr = false;
+            }
+            if (!this.email) {
+              this.errorTab = true;
+              this.emailErr = true;
+            } else {
+              this.emailErr = false;
+            }
+          }
+          break;
+        case 2:
+          if (this.storeName && this.address && this.category) {
+            this.errorTab = false;
+            this.storeNameErr = false;
+            this.addressErr = false;
+            this.categoryErr = false;
+            this.goForward();
+          } else {
+            if (!this.storeName) {
+              this.errorTab = true;
+              this.storeNameErr = true;
+            } else {
+              this.storeNameErr = false;
+            }
+            if (!this.address) {
+              this.errorTab = true;
+              this.addressErr = true;
+            } else {
+              this.addressErr = false;
+            }
+            if (!this.category) {
+              this.errorTab = true;
+              this.categoryErr = true;
+            } else {
+              this.categoryErr = false;
+            }
+          }
+          break;
+      }
     },
   },
 };
@@ -312,7 +403,6 @@ export default {
     max-w-screen-xl
     mx-auto
     md:px-36;
-
   .title {
     @apply text-2xl
       font-medium
@@ -322,18 +412,14 @@ export default {
       md:text-4xl
       md:font-bold;
   }
-
   h6 {
-    @apply
-      my-8
+    @apply my-8
       md:mb-24;
   }
-
   .steps {
     @apply flex
     w-full
     my-4;
-
     ul {
       @apply flex
       flex-col
@@ -341,13 +427,11 @@ export default {
       min-w-max
       justify-between
       md:flex-row;
-
       li {
         @apply text-sm
           my-2
           text-gray-cremona-domicilio
           opacity-50;
-
         span {
           @apply rounded-full
             bg-gray-cremona-domicilio
@@ -357,7 +441,6 @@ export default {
             mr-2;
         }
       }
-
       .active {
         @apply opacity-100
             text-dark-cremona-domicilio;
@@ -367,7 +450,20 @@ export default {
       }
     }
   }
-
+  .error-tab {
+    @apply bg-red-cremona-domicilio
+      bg-opacity-80
+      text-white
+      text-center
+      font-bold
+      rounded
+      w-full
+      py-4
+      my-8;
+  }
+  .hide {
+    @apply hidden;
+  }
   form {
     .step {
       @apply flex
@@ -375,23 +471,13 @@ export default {
         border-t
         border-b
         py-8;
-
-      h3 {
-        @apply font-bold
-            text-dark-cremona-domicilio
-            my-2;
-
-        span {
-          @apply text-red-800;
-        }
-      }
-
       .field-container {
         @apply flex
             flex-col
             my-4
             md:flex-row
             md:justify-between    
+            md:items-center    
             md:gap-4;
       }
       .field {
@@ -399,20 +485,25 @@ export default {
             flex-col
             my-1
             md:w-full;
-
+        h3 {
+          @apply font-bold
+            text-dark-cremona-domicilio
+            my-2;
+          span {
+            @apply text-red-800;
+          }
+        }
         .field-checkbox {
           @apply flex
             flex-row
             justify-start
             items-center;
-
           input {
             appearance: checkbox;
             @apply mr-4
                     w-auto;
           }
         }
-
         input,
         select,
         textarea {
@@ -424,22 +515,27 @@ export default {
             focus:ring-1
             focus:ring-green-cremona-domicilio;
         }
-
         label {
           @apply text-xs
             my-0.5;
         }
       }
-
       p {
         @apply text-xs
             my-2
             text-gray-cremona-domicilio;
       }
+      .required {
+        @apply hidden;
+      }
     }
-
-    .navigation {
-      @apply my-4
+    .navigation-container {
+      @apply flex
+        flex-col
+        w-full
+        md:flex-row;
+      .navigation {
+        @apply my-4
             flex
             justify-center
             py-5
@@ -450,16 +546,51 @@ export default {
             cursor-pointer
             transition-colors
             hover:bg-purple-cremona-domicilio
+            md:mr-4
             md:w-36
             md:py-3;
+      }
     }
-
     .previous {
       @apply bg-gray-cremona-domicilio;
     }
-
     .next {
       @apply bg-green-cremona-domicilio;
+    }
+  }
+  .error {
+    @apply bg-red-cremona-domicilio
+      bg-opacity-5
+      border-t
+      border-b
+      border-red-cremona-domicilio
+      border-opacity-80
+      py-2;
+    h3 {
+      @apply text-red-cremona-domicilio #{!important}
+          text-opacity-80;
+      span {
+        @apply text-red-cremona-domicilio #{!important}
+              text-opacity-80;
+      }
+    }
+    label {
+      @apply text-red-900;
+    }
+    p {
+      @apply text-dark-cremona-domicilio #{!important}
+          text-sm #{!important};
+    }
+    input,
+    textarea {
+      @apply border-red-cremona-domicilio
+          border-opacity-80;
+    }
+    .required {
+      @apply flex #{!important}
+          text-red-cremona-domicilio
+          text-opacity-80
+          text-sm;
     }
   }
 }
