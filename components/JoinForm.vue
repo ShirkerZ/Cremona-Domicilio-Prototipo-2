@@ -27,13 +27,14 @@
         </li>
       </ul>
     </div>
-    <div class="error-tab" :class="{ hide: !errorTab }">
-      <p>
-        C'è stato un errore con il tuo invio. Gli errori sono stati evidenziati
-        qui sotto.
-      </p>
-    </div>
     <form>
+      <div class="error-tab" :class="{ hide: !errorTab }">
+        <p>
+          C'è stato un errore con il tuo invio. Gli errori sono stati
+          evidenziati qui sotto.
+        </p>
+      </div>
+
       <div v-if="step === 1" class="step step-1">
         <div class="field-container full-name" :class="{ error: fullNameErr }">
           <div class="field">
@@ -41,10 +42,13 @@
             <input v-model="name" name="name" type="text" />
             <label for="name">Nome</label>
             <p>Inserire nome e cognome di chi compila</p>
-            <div class="required">Questo campo è obbligatorio.</div>
+            <div class="required">
+              Questo campo è obbligatorio. Inserisci il nome ed il cognome.
+            </div>
           </div>
 
           <div class="field">
+            <h3 class="text-placeholder">s</h3>
             <input v-model="surname" name="surname" type="text" />
             <label for="surname">Cognome</label>
           </div>
@@ -460,17 +464,20 @@ export default {
       rounded
       w-full
       py-4
-      my-8;
+      mt-10;
   }
   .hide {
     @apply hidden;
   }
   form {
+    @apply border-t
+        border-b
+        border-dotted;
+
     .step {
       @apply flex
         flex-col
-        border-t
-        border-b
+
         py-8;
       .field-container {
         @apply flex
@@ -484,7 +491,9 @@ export default {
       .field {
         @apply flex
             flex-col
+            justify-start
             my-1
+            md:h-36
             md:w-full;
         h3 {
           @apply font-bold
@@ -493,6 +502,11 @@ export default {
           span {
             @apply text-red-800;
           }
+        }
+        .text-placeholder {
+          @apply
+            select-none
+            text-transparent #{!important};
         }
         .field-checkbox {
           @apply flex
