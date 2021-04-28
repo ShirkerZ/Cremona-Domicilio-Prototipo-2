@@ -7,6 +7,9 @@ module.exports = {
     './nuxt.config.{js,ts}',
   ],
   darkMode: false, // or 'media' or 'class'
+  
+  important: true,
+
   theme: {
     extend: {
 
@@ -42,6 +45,7 @@ module.exports = {
         "purple-cremona-domicilio": "#440063",
         "dark-cremona-domicilio": "#333",
         "gray-cremona-domicilio": "#999",
+        "red-cremona-domicilio": "#FF0033",
       },
 
       backgroundImage: theme => ({
