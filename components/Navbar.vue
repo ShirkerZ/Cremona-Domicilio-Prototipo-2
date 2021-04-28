@@ -402,7 +402,8 @@ export default {
         justify-center
         items-center
         text-yellow-cremona-domicilio
-        p-4
+        h-12
+        w-12
         ml-1
         rounded-full
         cursor-pointer
@@ -411,8 +412,8 @@ export default {
         hover:bg-opacity-80;
 
         svg {
-          @apply w-5
-            h-5;
+          @apply w-4
+            h-4;
 
           path {
             @apply fill-current
