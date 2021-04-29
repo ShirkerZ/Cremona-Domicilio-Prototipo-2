@@ -265,7 +265,6 @@ export default {
       currentPage: 1,
       resultCount: 0,
       itemsPerPage: 12,
-      test: true,
     };
   },
 
