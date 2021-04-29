@@ -1,6 +1,5 @@
 <template>
   <div class="municipality">
-    <Zones />
     <Stores />
     <Categories />
     <How-it-works />
@@ -17,9 +16,7 @@
 
 <style lang="postcss" scoped>
 .municipality {
-  @apply bg-gray-50
-    mt-16
-    lg:pt-3;
+  @apply bg-gray-50;
 }
 .banners {
   @apply flex

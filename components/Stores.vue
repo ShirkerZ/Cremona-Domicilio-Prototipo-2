@@ -1,6 +1,6 @@
 <template>
   <div class="stores">
-    <transition appear  name="skeleton-anim">
+    <transition appear name="skeleton-anim">
       <div v-if="$fetchState.pending" key="skeleton">
         <div class="skeleton-container">
           <div class="skeleton-header">
@@ -380,12 +380,12 @@ export default {
 <style lang="scss" scoped>
 .skeleton-anim-enter-active,
 .skeleton-anim-leave-active {
-  transition: opacity .3s ease;
+  transition: opacity 0.2s ease-in;
 }
 
 .skeleton-anim-enter,
 .skeleton-anim-leave-to {
-opacity: 0;
+  opacity: 0;
 }
 </style>
 

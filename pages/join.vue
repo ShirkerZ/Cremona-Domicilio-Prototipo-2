@@ -1,6 +1,5 @@
 <template>
   <div class="join-container">
-    <Zones />
     <JoinForm />
     <div class="banners">
       <Banner-more />
@@ -15,9 +14,7 @@
 
 <style lang="postcss" scoped>
 .join-container {
-  @apply bg-gray-50
-    mt-16
-    lg:pt-3;
+  @apply bg-gray-50;
 }
 .banners {
   @apply flex

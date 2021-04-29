@@ -17,10 +17,11 @@
   </div>
 </template>
 
-<style lang="postcss" scoped>
+
+<style lang="scss" scoped>
+
 .index-container {
-  @apply bg-gray-50
-    mt-8;
+  @apply bg-gray-50;
 }
 .banners {
   @apply flex

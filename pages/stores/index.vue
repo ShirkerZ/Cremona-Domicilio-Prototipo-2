@@ -1,6 +1,5 @@
 <template>
   <div class="stores-container">
-    <Zones />
     <Stores />
     <Categories />
     <How-it-works />
@@ -18,9 +17,7 @@
 <style lang="postcss" scoped>
 .stores-container {
   @apply
-  bg-gray-50
-    mt-16
-    lg:pt-3
+  bg-gray-50;
 }
 .banners{
   @apply

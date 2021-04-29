@@ -495,15 +495,15 @@ export default {
     }
     .menu {
       @apply fixed
-  z-10
-  top-0
-  left-full
-  overflow-x-hidden
-  h-screen
-  w-screen
-  bg-dark-cremona-domicilio
-  px-6
-  py-4;
+        z-10
+        top-0
+        left-full
+        overflow-x-hidden
+        h-screen
+        w-screen
+        bg-dark-cremona-domicilio
+        px-6
+        py-4;
 
       .main-links {
         @apply my-16;

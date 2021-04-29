@@ -1,6 +1,5 @@
 <template>
   <div class="store-container">
-    <Zones />
     <div v-if="$fetchState.pending">
       <div class="skeleton">
         <div class="skeleton-header">
@@ -332,9 +331,7 @@ export default {
 
 <style lang="scss" scoped>
 .store-container {
-  @apply bg-gray-50
-    mt-16
-    md:pt-3;
+  @apply bg-gray-50;
 
   .banners {
     @apply flex
