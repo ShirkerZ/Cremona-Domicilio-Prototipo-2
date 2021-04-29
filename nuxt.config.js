@@ -19,12 +19,6 @@ export default {
     ]
   },
 
-  pageTransition: {
-    beforeEnter (el) {
-      console.log('Before enter...', el);
-    }
-  },
-
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
