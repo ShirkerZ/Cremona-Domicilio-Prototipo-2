@@ -36,6 +36,7 @@ body {
     justify-center
     min-w-full
     mt-8
+    pt-8
     lg:pt-11;
 }
 

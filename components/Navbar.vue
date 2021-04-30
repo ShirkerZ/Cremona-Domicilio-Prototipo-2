@@ -328,6 +328,7 @@ export default {
 
     .logo {
       min-height: max-content;
+      max-height: 65px;
       @apply fixed
       z-10
       top-0
@@ -341,6 +342,7 @@ export default {
       cursor-pointer
       bg-green-cremona-domicilio
       text-white
+      md:max-h-full
       md:flex
       md:relative
       md:w-56
