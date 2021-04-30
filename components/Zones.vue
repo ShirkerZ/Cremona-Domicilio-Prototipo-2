@@ -208,21 +208,20 @@ export default {
       }
     }
 
-    .municipality-selection-transition-active,
+    .municipality-selection-transition-enter-active,
     .municipality-selection-transition-leave-active {
-      transform: scale(1);
-      transition: all 0.25s ease;
+      transition: all 0.25s ease-in-out;
     }
 
     .municipality-selection-transition-enter,
     .municipality-selection-transition-leave-to {
-      @apply opacity-0;
-
-      transform: scale(1.01);
+      opacity: 0;
+      transform: translate3d(0, 15px, 0);
     }
 
     .municipality-selection-overlay {
       @apply h-screen
+      w-screen
       fixed
       inset-0
       bg-purple-cremona-domicilio
