@@ -1,21 +1,8 @@
 <template>
   <div class="type">
-    <h3 v-if="!$route.name.includes('stores')">
-      {{ $t("categories.storeType") }}
-      <span>{{
-        selectedMunicipality ? selectedMunicipality.title : $t("zones.allZones")
-      }}</span
-      >?
-    </h3>
-    <h3 class="for-more" v-else>{{ $t("categories.lookingForMore") }}:
-      <span>
-        {{selectedMunicipality && selectedMunicipality.title}} 
-      </span>
-      ?
-    </h3>
-
     <div v-if="$fetchState.pending">
       <div class="skeleton">
+        <div class="skeleton-title">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
         <div class="skeleton-categories">
           <div class="skeleton-category">Lorem, ipsum.</div>
           <div class="skeleton-category">Lorem, .</div>
@@ -51,6 +38,26 @@
       </div>
     </div>
     <div v-else>
+      <div class="header">
+        <!-- IF IN HOME -->
+        <h3 v-if="!$route.name.includes('stores')">
+          {{ $t("categories.storeType") }}
+          <span>{{
+            selectedMunicipality
+              ? selectedMunicipality.title
+              : $t("zones.allZones")
+          }}</span
+          >?
+        </h3>
+        <!-- IF IN STORES -->
+        <h3 class="for-more" v-else>
+          {{ $t("categories.lookingForMore") }}:
+          <span>
+            {{ selectedMunicipality && selectedMunicipality.title }}
+          </span>
+          ?
+        </h3>
+      </div>
       <ul class="link-container">
         <li v-for="category in categories" :key="category.slug">
           <nuxt-link
@@ -109,11 +116,20 @@ export default {
   }
 
   .for-more {
-    @apply
-      text-xl;
+    @apply text-xl;
   }
 
   .skeleton {
+    @apply animate-pulse;
+    .skeleton-title {
+      @apply text-2xl
+        my-8
+        bg-gray-200
+        text-transparent
+        rounded
+        max-w-max
+        md:text-3xl;
+    }
     .skeleton-categories {
       @apply flex
         flex-wrap;
