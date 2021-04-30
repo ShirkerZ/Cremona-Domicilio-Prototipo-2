@@ -1,78 +1,82 @@
 <template>
   <div class="type">
-    <div v-if="$fetchState.pending">
-      <div class="skeleton">
-        <div class="skeleton-title">Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
-        <div class="skeleton-categories">
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, .</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorepsum.</div>
-          <div class="skeleton-category">Lorem, ium.</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, ipsum dolor.</div>
-          <div class="skeleton-category">Lorem</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, ips</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, .</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorepsum.</div>
-          <div class="skeleton-category">Lorem, ium.</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, ipsum dolor.</div>
-          <div class="skeleton-category">Lorem</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, ips</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, .</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorepsum.</div>
-          <div class="skeleton-category">Lorem, ium.</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, ipsum dolor.</div>
-          <div class="skeleton-category">Lorem</div>
-          <div class="skeleton-category">Lorem, ipsum.</div>
-          <div class="skeleton-category">Lorem, ips</div>
+    <transition appear name="skeleton-anim">
+      <div v-if="$fetchState.pending">
+        <div class="skeleton" key="skeleton">
+          <div class="skeleton-title">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+          </div>
+          <div class="skeleton-categories">
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, .</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorepsum.</div>
+            <div class="skeleton-category">Lorem, ium.</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, ipsum dolor.</div>
+            <div class="skeleton-category">Lorem</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, ips</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, .</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorepsum.</div>
+            <div class="skeleton-category">Lorem, ium.</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, ipsum dolor.</div>
+            <div class="skeleton-category">Lorem</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, ips</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, .</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorepsum.</div>
+            <div class="skeleton-category">Lorem, ium.</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, ipsum dolor.</div>
+            <div class="skeleton-category">Lorem</div>
+            <div class="skeleton-category">Lorem, ipsum.</div>
+            <div class="skeleton-category">Lorem, ips</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <div class="header">
-        <!-- IF IN HOME -->
-        <h3 v-if="!$route.name.includes('stores')">
-          {{ $t("categories.storeType") }}
-          <span>{{
-            selectedMunicipality
-              ? selectedMunicipality.title
-              : $t("zones.allZones")
-          }}</span
-          >?
-        </h3>
-        <!-- IF IN STORES -->
-        <h3 class="for-more" v-else>
-          {{ $t("categories.lookingForMore") }}:
-          <span>
-            {{ selectedMunicipality && selectedMunicipality.title }}
-          </span>
-          ?
-        </h3>
+      <div v-else class="content" key="content">
+        <div class="header">
+          <!-- IF IN HOME -->
+          <h3 v-if="!$route.name.includes('stores')">
+            {{ $t("categories.storeType") }}
+            <span>{{
+              selectedMunicipality
+                ? selectedMunicipality.title
+                : $t("zones.allZones")
+            }}</span
+            >?
+          </h3>
+          <!-- IF IN STORES -->
+          <h3 class="for-more" v-else>
+            {{ $t("categories.lookingForMore") }}:
+            <span>
+              {{ selectedMunicipality && selectedMunicipality.title }}
+            </span>
+            ?
+          </h3>
+        </div>
+        <ul class="link-container">
+          <li v-for="category in categories" :key="category.slug">
+            <nuxt-link
+              :to="
+                localePath({
+                  name: 'categories-category',
+                  params: { category: category.slug },
+                })
+              "
+            >
+              {{ category.title }} <span>({{ category.stores_number }})</span>
+            </nuxt-link>
+          </li>
+        </ul>
       </div>
-      <ul class="link-container">
-        <li v-for="category in categories" :key="category.slug">
-          <nuxt-link
-            :to="
-              localePath({
-                name: 'categories-category',
-                params: { category: category.slug },
-              })
-            "
-          >
-            {{ category.title }} <span>({{ category.stores_number }})</span>
-          </nuxt-link>
-        </li>
-      </ul>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -94,6 +98,18 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.skeleton-anim-enter-active,
+.skeleton-anim-leave-active {
+  transition: opacity 0.2s ease-in;
+}
+
+.skeleton-anim-enter,
+.skeleton-anim-leave-to {
+  opacity: 0;
+}
+</style>
 
 <style lang="scss" scoped>
 .type {
