@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div class="container">
-      <transition name="zone-anim">
+      <transition appear name="zone-anim">
         <Zones v-if="!$route.name.includes('index')" />
       </transition>
       <Nuxt />
@@ -51,18 +51,14 @@ body {
   transform: translate3d(0, 15px, 0);
 }
 
-.zone-anim-enter-active{
-  transition: opacity 0.2s ease-in-out, transform 0.35s ease-in-out;
-  transform-origin: top;
-}
 
+.zone-anim-enter-active,
 .zone-anim-leave-active {
-  transition:opacity 0.35s ease-in-out, transform 0.35s ease-in-out;
-  transform-origin: top;
+  transition: max-height .35s ease-in-out;
+  max-height: 200px;
 }
 
 .zone-anim-enter, .zone-anim-leave-to {
-  opacity: 0;
-  transform: scaleY(0);
+  max-height: 0;
 }
 </style>

@@ -135,7 +135,8 @@ export default {
 <style lang="scss">
 .zones {
   @apply w-screen
-  bg-purple-cremona-domicilio;
+  bg-purple-cremona-domicilio
+  overflow-hidden;
 
   .municipality-selection {
     @apply max-w-screen-2xl
