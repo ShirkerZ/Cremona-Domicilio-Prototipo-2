@@ -2,12 +2,12 @@
   <div class="join-container">
     <JoinForm />
     <div class="banners">
-      <Banner-more />
-      <Banner-join />
+      <BannerMore />
+      <BannerJoin />
     </div>
     <div class="social">
-      <Share />
-      <Contact />
+      <SocialShare />
+      <SocialContact />
     </div>
   </div>
 </template>
