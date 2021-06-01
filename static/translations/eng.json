@@ -31,7 +31,8 @@
     },
     "categories": {
         "storeType": "What kind of store are you looking for in:",
-        "lookingForMore": "Looking for more in"
+        "lookingForMoreIn": "Looking for more in",
+        "lookingForMore": "Looking for more"
     },
     "how_it_works": {
         "howItWorks": "How it works",

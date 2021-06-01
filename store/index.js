@@ -29,7 +29,7 @@ export const getters = {
 
     //  Filter stores by category
     getStoreByCategory: state => payload => {
-        return state.stores.filter(store => store.category.find(el => el.slug === payload))
+        return state.stores.filter(store => store.categories.find(el => el.slug === payload))
     },
 
     //  Filter stores by municipality
@@ -37,10 +37,11 @@ export const getters = {
         if (payload === "all-zones") {
             return state.stores
         }
+        console.log("Payload", payload)
         let municipalitySlug = payload || state.selectedMunicipality.slug
         //  Select available stores (ONLY TEMPORARY)
-        const storesArray = state.stores.slice(0, 6)
-        let result = storesArray.filter(store => (store.delivery[state.deliveryZone || 0].municipality.filter(el => el.slug == municipalitySlug)).length > 0)
+        // const storesArray = state.stores.slice(0, 6)
+        let result = state.stores.filter(store => (store.delivery_zones[state.deliveryZone || 0].municipalities.filter(el => el.slug == municipalitySlug)).length > 0)
         return result
     },
 
@@ -50,14 +51,14 @@ export const getters = {
             return getters.getStoreByMunicipality(municipality)
         }
         let getter1 = getters.getStoreByMunicipality(municipality)
-        let result = getter1.filter(store => (store.delivery[state.deliveryZone || 0].municipality.filter(el => el.slug == state.selectedMunicipality.slug)).length > 0)
+        let result = getter1.filter(store => (store.delivery_zones[state.deliveryZone || 0].municipalities.filter(el => el.slug == state.selectedMunicipality.slug)).length > 0)
         return result
     },
 
     //  Filter stores by category and municipality
     getStoreByCategoryAndMunicipality: (state, getters) => (municipality, category) => {
         if (municipality === "all-zones") {
-            return state.stores.filter(store => store.category.find(el => el.slug === category))
+            return state.stores.filter(store => store.categories.find(el => el.slug === category))
         }
         let municipalitySlug = municipality || state.selectedMunicipality.slug
         let storesMunicipality = getters.getStoreByMunicipality(municipalitySlug)

@@ -118,7 +118,7 @@
           lg:mr-56
           lg:right-1.5
           2xl:mr-12
-          hover:bg-opacity-80;
+          hover:bg-hover-light-purple-cremona-domicilio;
       }
     }
   }

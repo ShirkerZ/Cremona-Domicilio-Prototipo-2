@@ -21,26 +21,29 @@
         <div class="store-header">
           <img :src="store.logo" alt="" class="avatar" />
           <h2>{{ store.title }}</h2>
-          <ul class="category-container" v-if="store.delivery">
-            <li v-for="cost in deliveryData.config" :key="cost">
+          <ul
+            class="category-container"
+            v-if="store.delivery_zones && store.delivery_zones.length > 0"
+          >
+            <li v-for="cost in deliveryData.delivery_methods" :key="cost">
               <span
                 class="free-delivery"
-                v-if="cost.minimum_expense > 0 && cost.delivery_cost == 0"
+                v-if="cost.minimum_expense > 0 && cost.cost == 0"
               >
                 Consegna Gratuita oltre {{ cost.minimum_expense }}€
               </span>
-              <span class="cost" v-if="cost.delivery_cost > 0">
-                Consegna {{ cost.delivery_cost }}€
+              <span class="cost" v-if="cost.cost > 0">
+                Consegna {{ cost.cost }}€
               </span>
               <span
                 class="free-delivery"
-                v-else-if="cost.minimum_expense == 0 && cost.delivery_cost == 0"
+                v-else-if="cost.minimum_expense == 0 && cost.cost == 0"
               >
                 Consegna Gratutia
               </span>
             </li>
             <!-- Store categories -->
-            <li v-for="category of store.category" :key="category.slug">
+            <li v-for="category of store.categories" :key="category.slug">
               <nuxt-link
                 :to="
                   localePath({
@@ -57,9 +60,9 @@
           <div class="left-col">
             <ul class="info">
               <button>Invia richiesta</button>
-              <li v-if="store.phone">
+              <li v-if="store.phone_number">
                 <h5>Telefono</h5>
-                <a href="">{{ store.phone }}</a>
+                <a href="">{{ store.phone_number }}</a>
                 <button>
                   Scrivi su whatsapp<i class="fab fa-whatsapp"></i>
                 </button>
@@ -68,18 +71,20 @@
                 <h5>Indirizzo</h5>
                 <p>
                   {{ store.address.street }},
-                  {{ store.address.cap }}
-                  {{ store.address.city }}
-                  {{ store.address.state }}
+                  {{ store.address.postal_code }}
+                  {{ store.address.municipality }}
+                  <span v-if="store.address.province">
+                    ({{ store.address.province }})
+                  </span>
                 </p>
               </li>
-              <li>
+              <li v-if="store.email">
                 <h5>Email</h5>
                 <a href="">{{ store.email }}</a>
               </li>
-              <li v-if="store.website">
+              <li v-if="store.web_site">
                 <h5>Sito web</h5>
-                <a :href="store.website">{{ store.website }}</a>
+                <a :href="store.web_site">{{ store.web_site }}</a>
               </li>
               <li v-if="store.social.facebook || store.social.instagram">
                 <h5>Altri link</h5>
@@ -104,36 +109,33 @@
           <div class="right-col">
             <div class="delivery-info">
               <h3>Modalità di consegna</h3>
-              <ul v-if="store.delivery">
+              <ul
+                v-if="store.delivery_zones && store.delivery_zones.length > 0"
+              >
                 <!-- Delivery days -->
-                <li v-if="deliveryData.delivery_days_times">
+                <li v-if="deliveryData.day_hours_order">
                   <h5>Giorni di consegna</h5>
-                  <p>
-                    {{ deliveryData.delivery_days_times }}
-                  </p>
+                  <div v-html="deliveryData.day_hours_order"></div>
                 </li>
 
                 <!-- Delivery cost -->
-                <li>
-                  <h5>Costo Conegna</h5>
+                <li
+                  v-if="
+                    deliveryData.delivery_methods &&
+                    deliveryData.delivery_methods.length > 0
+                  "
+                >
+                  <h5>Costo Consegna</h5>
                   <div>
-                    <p v-for="cost in deliveryData.config" :key="cost">
-                      <span
-                        v-if="
-                          cost.minimum_expense == 0 && cost.delivery_cost == 0
-                        "
-                      >
-                        Consegna Gratuita
-                      </span>
-                      <span
-                        v-if="
-                          cost.minimum_expense > 0 && cost.delivery_cost == 0
-                        "
-                      >
+                    <p
+                      v-for="cost in deliveryData.delivery_methods"
+                      :key="cost"
+                    >
+                      <span v-if="cost.minimum_expense > 0 && cost.cost == 0">
                         {{
                           Math.min.apply(
-                            null,
-                            deliveryData.config.map(
+                            Math,
+                            deliveryData.delivery_methods.map(
                               (item) => item.minimum_expense
                             )
                           ) == cost.minimum_expense
@@ -141,19 +143,29 @@
                             : "Gratuita oltre " + cost.minimum_expense + "€"
                         }}
                       </span>
-                      <span v-else-if="cost.delivery_cost">
-                        Consegna {{ cost.delivery_cost }}€
+                      <span
+                        v-else-if="cost.minimum_expense == 0 && cost.cost == 0"
+                      >
+                        Consegna Gratuita
+                      </span>
+                      <span v-else-if="cost.cost">
+                        Consegna {{ cost.cost }}€
                       </span>
                       <span v-else> Non Specificato </span>
                     </p>
                   </div>
                 </li>
+
                 <!-- Minimum expense -->
                 <li
                   v-if="
+                    deliveryData.delivery_methods &&
+                    deliveryData.delivery_methods.length > 0 &&
                     Math.min.apply(
-                      null,
-                      deliveryData.config.map((item) => item.minimum_expense)
+                      Math,
+                      deliveryData.delivery_methods.map(
+                        (item) => item.minimum_expense
+                      )
                     ) > 0
                   "
                 >
@@ -161,37 +173,43 @@
                   <p>
                     {{
                       Math.min.apply(
-                        null,
-                        deliveryData.config.map((item) => item.minimum_expense)
+                        Math,
+                        deliveryData.delivery_methods.map(
+                          (item) => item.minimum_expense
+                        )
                       )
                     }}€
                   </p>
                 </li>
 
                 <!-- Payment option -->
-                <li class="payment-options" v-if="store.payment_options">
+                <li
+                  class="payment-options"
+                  v-if="store.payment_methods && store.payment_methods.length"
+                >
                   <h5>Modalità di pagamento</h5>
                   <div>
-                    <p v-for="mode in store.payment_options" :key="mode">
-                      {{ $t(`payment_option.${mode}`) }}
+                    <p v-for="mode in store.payment_methods" :key="mode">
+                      {{ mode.title }}
                     </p>
                   </div>
                 </li>
+
                 <!-- Online reservations -->
-                <li v-if="store.online_reservations[0].website">
+                <li v-if="store.online_booking[0].web_site">
                   <h5>Prenotazione online</h5>
                   <a
-                    :href="reservation.website"
-                    v-for="reservation in store.online_reservations"
+                    :href="reservation.web_site"
+                    v-for="reservation in store.online_booking"
                     :key="reservation"
-                    >{{ reservation.website }}</a
+                    >{{ reservation.web_site }}</a
                   >
                 </li>
               </ul>
             </div>
             <div class="post-container" v-if="store.description">
               <div class="description" v-html="store.description"></div>
-              <ul v-if="store.products.products_surveyed">
+              <ul v-if="store.products && store.products.products_surveyed">
                 <li
                   v-for="product in store.products.products_surveyed"
                   :key="product"
@@ -207,7 +225,7 @@
                 </ul>
               </div>
             </div>
-            <div class="contact-store">
+            <div v-if="store.email" class="contact-store">
               <h3>Manda ora la tua richiesta!</h3>
               <p>
                 Compila tutti i campi del form per inviare un'email al
@@ -215,32 +233,60 @@
               </p>
               <form action="">
                 <div class="field">
-                  <label for="">Nome*</label
-                  ><input type="text" placeholder="Nome*" />
-                </div>
-                <div class="field">
-                  <label for="">Cognome*</label
-                  ><input type="text" placeholder="Cognome*" />
-                </div>
-                <div class="field">
-                  <label for="">Telefono</label
-                  ><input type="text" placeholder="+39" />
-                </div>
-                <div class="field">
-                  <label for="">Inserisci la tua email*</label
-                  ><input type="text" placeholder="example@domain.info" />
-                </div>
-                <div class="field field-full">
-                  <label for="">Indirizzo a cui consegnare*</label
+                  <label for="name">Nome*</label
                   ><input
                     type="text"
+                    name="name"
+                    v-model="name"
+                    required
+                    placeholder="Nome*"
+                  />
+                </div>
+                <div class="field">
+                  <label for="surname">Cognome*</label
+                  ><input
+                    type="text"
+                    name="surname"
+                    v-model="surname"
+                    required
+                    placeholder="Cognome*"
+                  />
+                </div>
+                <div class="field">
+                  <label for="phone">Telefono</label
+                  ><input
+                    type="text"
+                    name="phone"
+                    v-model="phone"
+                    placeholder="+39"
+                  />
+                </div>
+                <div class="field">
+                  <label for="email">Inserisci la tua email*</label
+                  ><input
+                    type="text"
+                    name="email"
+                    v-model="email"
+                    required
+                    placeholder="example@domain.info"
+                  />
+                </div>
+                <div class="field field-full">
+                  <label for="address">Indirizzo a cui consegnare*</label
+                  ><input
+                    type="text"
+                    name="address"
+                    v-model="address"
+                    required
                     placeholder="Indirizzo a cui consegnare"
                   />
                 </div>
                 <div class="field field-full">
-                  <label for="">Cosa vorresti ordinare?*</label
+                  <label for="message">Cosa vorresti ordinare?*</label
                   ><textarea
-                    name=""
+                    name="message"
+                    v-model="message"
+                    required
                     id=""
                     cols="30"
                     rows="5"
@@ -255,11 +301,11 @@
                 >
               </p>
             </div>
-            <div class="municipalities" v-if="store.delivery.length">
-              <h3>Comuni serviti ({{ deliveryData.municipality.length }})</h3>
+            <div class="municipalities" v-if="store.delivery_zones.length">
+              <h3>Comuni serviti ({{ deliveryData.minicipalities.length }})</h3>
               <ul>
                 <li
-                  v-for="municipality in deliveryData.municipality"
+                  v-for="municipality in deliveryData.minicipalities"
                   :key="municipality.slug"
                 >
                   <nuxt-link
@@ -305,6 +351,18 @@ export default {
   data() {
     return {
       store: null,
+      name: "",
+      surname: "",
+      phone: "",
+      email: "",
+      address: "",
+      message: "",
+    };
+  },
+
+  head() {
+    return {
+      title: this.store ? this.store.title : "Cremona a Domicilio",
     };
   },
 
@@ -312,19 +370,20 @@ export default {
     deliveryData() {
       let user_zone = null;
       if (user_zone) {
-        return this.store.delivery[user_zone];
+        return this.store.delivery_zones[user_zone];
       }
-
-      return this.store.delivery[0];
+      console.log("Delivery zone", this.store.delivery_zones[0]);
+      return this.store.delivery_zones[0];
     },
   },
 
   async fetch() {
     const slug = this.$route.params.store;
     const storeData = await fetch(
-      `http://json.domicilio.dev.dueper.net/stores/${slug}.json`
+      `https://api.domicilio.bitcream.test.emberware.it/store?filter[slug]=${slug}`
     ).then((res) => res.json());
-    this.store = storeData;
+    this.store = storeData[0];
+    console.log("Store data", this.store);
   },
 };
 </script>
@@ -420,6 +479,8 @@ export default {
     @apply px-4
       py-4
       w-screen
+      max-w-screen-2xl
+      mx-auto
       text-dark-cremona-domicilio
       md:py-12;
 
@@ -508,13 +569,15 @@ export default {
               py-4
               px-8
               rounded-full
+              outline-none
               text-xl
               w-full
               my-8
               md:mt-24
               lg:mt-8
               lg:py-3
-              transition-colors;
+              transition-colors
+              hover:bg-hover-dark-purple-cremona-domicilio;
           }
 
           li {
@@ -544,6 +607,7 @@ export default {
                 w-auto
                 py-1
                 px-4
+                outline-none
                 md:mt-8
                 md:mb-4
                 transition-colors
@@ -581,8 +645,8 @@ export default {
 
           li {
             @apply border-b
-              my-2
-              py-2
+              pt-2
+              pb-5
               lg:flex
               lg:justify-between
               lg:items-center;
@@ -591,13 +655,18 @@ export default {
               @apply text-base
                 font-bold
                 text-dark-cremona-domicilio
-                my-2
                 lg:text-lg;
             }
 
             a {
               @apply text-dark-green-cremona-domicilio
                 underline
+                my-2
+                flex
+                flex-wrap
+                overflow-x-auto
+                lg:my-0
+                lg:max-w-lg
                 hover:no-underline;
             }
 
@@ -618,7 +687,8 @@ export default {
                   md:ml-2;
 
                 &::after {
-                  content: ",";
+                  content: "-";
+                  margin-left: 0.5rem;
                 }
 
                 &:last-child::after {
@@ -714,7 +784,7 @@ export default {
               @apply flex
                 flex-col
                 my-4
-                px-4
+                pr-8
                 md:w-1/2;
 
               label {
@@ -749,10 +819,12 @@ export default {
                 px-6
                 my-8
                 mx-4
+                outline-none
                 w-11/12
                 md:mx-auto
                 md:w-auto
-                md:my-4
+                md:mt-2
+                md:mb-10
                 md:px-12
                 lg:text-xl
                 transition-colors

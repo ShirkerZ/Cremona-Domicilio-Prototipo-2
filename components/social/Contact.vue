@@ -4,13 +4,13 @@
     <form action="">
       <div class="field">
         <label for="email">Inserisci la tua email</label>
-        <input type="text" name="email" placeholder="example@domain.info*" />
+        <input type="text" name="email" placeholder="example@domain.info*" required />
       </div>
       <div class="field">
         <label for=""
           >Seleziona la zona di cui vuoi ricevere gli aggiornamenti</label
         >
-        <select name="" id="">
+        <select name="" id="" required>
           <option value="" disabled selected>Seleziona comune o zona*</option>
           <option value="zone.slug" v-for="zone in zones" :key="zone.slug">
             {{ zone.title }}
@@ -44,6 +44,10 @@ export default {
     px-8
         flex
         flex-col
+        border-t
+        md:border-t-0
+        md:border-l
+        md:border-gray-300
         md:px-16
         lg:px-24;
 
@@ -91,11 +95,12 @@ export default {
         py-3
         rounded-full
         my-8
+        outline-none
         transition-colors
         md:w-40
         md:mx-auto
         md:my-4
-        hover:bg-opacity-80;
+        hover:bg-hover-light-purple-cremona-domicilio;
     }
 
     .note {

@@ -168,7 +168,8 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-  @apply md:pt-4;
+  @apply bg-gray-50
+  md:pt-4;
 
   .breadcrumbs {
     @apply px-4

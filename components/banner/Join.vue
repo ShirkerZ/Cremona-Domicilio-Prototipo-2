@@ -50,6 +50,7 @@ a {
       @apply text-white
         py-3
         px-8
+        outline-none
         rounded-full
         transition-colors;
     }

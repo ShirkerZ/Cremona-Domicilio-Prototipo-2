@@ -53,14 +53,19 @@
             >?
           </h3>
           <!-- IF IN STORES -->
-          <h3 class="for-more" v-else>
-            {{ $t("categories.lookingForMore") }}:
+          <h3 class="for-more" v-else-if="selectedMunicipality">
+            {{ $t("categories.lookingForMoreIn") }}:
             <span>
-              {{ selectedMunicipality && selectedMunicipality.title }}
+              {{ selectedMunicipality.title }}
             </span>
             ?
           </h3>
+
+          <h3 class="for-more" v-else>
+            {{ $t("categories.lookingForMore") }} ?
+          </h3>
         </div>
+
         <ul class="link-container">
           <li v-for="category in categories" :key="category.slug">
             <nuxt-link

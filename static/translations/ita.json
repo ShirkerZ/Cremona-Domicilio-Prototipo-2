@@ -31,7 +31,8 @@
     },
     "categories": {
         "storeType": "Che tipo di negozio stai cercando in:",
-        "lookingForMore": "Cerchi altro in"
+        "lookingForMoreIn": "Cerchi altro in",
+        "lookingForMore": "Cerchi altro"
     },
 
     "how_it_works": {

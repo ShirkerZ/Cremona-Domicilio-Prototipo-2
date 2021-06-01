@@ -44,12 +44,13 @@
     button {
       @apply flex
         items-center
-        py-2.5
-        px-4
+        py-3
+        px-6
         my-2
         rounded-full
         mx-20
         text-white
+        outline-none
         transition-colors
         md:px-6
         md:pr-4
@@ -63,7 +64,7 @@
 
     .facebook {
       @apply bg-purple-cremona-domicilio
-        hover:bg-opacity-80;
+        hover:bg-hover-light-purple-cremona-domicilio;
     }
 
     .whatsapp {

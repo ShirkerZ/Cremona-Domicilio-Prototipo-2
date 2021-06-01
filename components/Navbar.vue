@@ -411,7 +411,7 @@ export default {
         cursor-pointer
         bg-purple-cremona-domicilio
         transition-colors
-        hover:bg-opacity-80;
+        hover:bg-hover-light-purple-cremona-domicilio;
 
         svg {
           @apply w-4

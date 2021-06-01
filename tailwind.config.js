@@ -46,6 +46,8 @@ module.exports = {
         "dark-cremona-domicilio": "#333",
         "gray-cremona-domicilio": "#999",
         "red-cremona-domicilio": "#FF0033",
+        "hover-light-purple-cremona-domicilio": "#6f4687",
+        "hover-dark-purple-cremona-domicilio": "#300049",
       },
 
       backgroundImage: theme => ({

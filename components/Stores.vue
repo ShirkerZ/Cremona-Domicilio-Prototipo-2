@@ -138,11 +138,16 @@
               <span>{{ selectedMunicipality.title }}</span>
             </h6>
           </h3>
+
+          <!-- DEFAULT -->
+          <h3 v-else>
+            {{ $t("stores.allShops") }}
+          </h3>
         </div>
 
         <div v-if="filteredStores.length">
           <div class="card-container">
-            <div class="card" v-for="store of paginate" :key="store.slug">
+            <div class="card" v-for="store of filteredStores" :key="store.slug">
               <nuxt-link
                 :to="
                   localePath({
@@ -157,34 +162,33 @@
                   <p class="summary" v-html="store.description" />
                 </main>
                 <footer>
-                  <ul v-if="store.delivery.length">
+                  <ul
+                    v-if="store.delivery_zones && store.delivery_zones.length"
+                  >
                     <li
-                      v-for="(cost, index) in store.delivery[0].config"
+                      v-for="(cost, index) in store.delivery_zones[0]
+                        .delivery_methods"
                       :key="index"
                     >
                       <span
                         class="free-delivery"
-                        v-if="
-                          cost.minimum_expense > 0 && cost.delivery_cost == 0
-                        "
+                        v-if="cost.minimum_expense > 0 && cost.cost == 0"
                       >
                         Consegna Gratuita oltre {{ cost.minimum_expense }}€
                       </span>
-                      <span class="delivery-cost" v-if="cost.delivery_cost > 0">
-                        Consegna {{ cost.delivery_cost }}€
+                      <span class="delivery-cost" v-else-if="cost.cost > 0">
+                        Consegna {{ cost.cost }}€
                       </span>
                       <span
                         class="free-delivery"
-                        v-else-if="
-                          cost.minimum_expense == 0 && cost.delivery_cost == 0
-                        "
+                        v-else-if="cost.minimum_expense == 0 && cost.cost == 0"
                       >
                         Consegna Gratutia
                       </span>
                     </li>
                     <li
                       class="card-categories"
-                      v-for="category of store.category"
+                      v-for="category of store.categories"
                       :key="category.slug"
                     >
                       {{ category.title }}
@@ -195,29 +199,29 @@
             </div>
           </div>
 
+          <!--  PAGINATION  -->
           <div
+            v-if="pageCount > 1 && !$route.name.includes('index')"
             class="pagination"
-            v-if="
-              filteredStores.length > itemsPerPage &&
-              !$route.name.includes('index')
-            "
           >
-            <button v-if="totalPages - currentPage < 1" @click="goToFirst">
-              &#171; First
-            </button>
-            <button v-if="currentPage !== 1" @click="goBack">&#171;</button>
-            <button
-              :class="{ current: currentPage === pageNumber }"
-              v-for="pageNumber in totalPages"
-              :key="pageNumber"
-              @click="setPage(pageNumber)"
-            >
-              {{ pageNumber }}
-            </button>
-            <button v-if="currentPage !== totalPages" @click="goForward">
+            <button v-if="start != 0" @click="goToFirst">&#171; First</button>
+            <button v-if="currentPage != 1" @click="goBack">&#171;</button>
+            <div class="dots" v-if="start != 0">...</div>
+            <div class="buttons">
+              <button
+                @click="setPage(page + 1)"
+                v-for="page in paginationRange"
+                :key="page"
+                :class="{ current: currentPage == page + 1 }"
+              >
+                {{ page + 1 }}
+              </button>
+            </div>
+            <div class="dots" v-if="end != pageCount">...</div>
+            <button v-if="currentPage != pageCount" @click="goForward">
               &#187;
             </button>
-            <button v-if="totalPages - currentPage > 1" @click="goToLast">
+            <button v-if="end != pageCount" @click="goToLast">
               Last &#187;
             </button>
           </div>
@@ -263,102 +267,145 @@ export default {
   data() {
     return {
       currentPage: 1,
-      resultCount: 0,
-      itemsPerPage: 12,
+      pageCount: 1,
+      paginationRange: [],
+      start: 0,
+      end: 0,
     };
   },
 
   methods: {
+    pageRange: function (page, pageCount) {
+      var start = page - 2,
+        end = page + 2;
+
+      if (end > pageCount) {
+        start -= end - pageCount;
+        end = pageCount;
+      }
+      if (start <= 0) {
+        end += (start - 1) * -1;
+        start = 1;
+      }
+
+      end = end > pageCount ? pageCount : end;
+
+      return {
+        start: start,
+        end: end,
+      };
+    },
+
     setPage: function (pageNumber) {
       this.currentPage = pageNumber;
       scrollTo(0, 0);
+      this.$fetch();
     },
 
     goBack: function () {
       this.currentPage--;
       scrollTo(0, 0);
+      this.$fetch();
     },
 
     goForward: function () {
       this.currentPage++;
       scrollTo(0, 0);
+      this.$fetch();
     },
 
     goToFirst: function () {
       this.currentPage = 1;
       scrollTo(0, 0);
+      this.$fetch();
     },
 
     goToLast: function () {
-      this.currentPage = this.totalPages;
+      this.currentPage = this.pageCount;
       scrollTo(0, 0);
+      this.$fetch();
     },
   },
 
   async fetch() {
-    const storesData = await fetch(
-      `http://json.domicilio.dev.dueper.net/stores.json`
-    ).then((res) => res.json());
-    this.$store.commit("updateStores", storesData);
+    //  if in home page sort by last created
+    let inHome = false;
+    if (this.$route.name.includes("index")) {
+      inHome = true;
+    } else {
+      inHome = false;
+    }
+
+    const selectedCategory = this.$nuxt.context.route.params.category;
+
+    const storeData = await fetch(
+      `https://api.domicilio.bitcream.test.emberware.it/store?per-page=${
+        inHome ? "6&sort=-created_at" : "30&sort=title"
+      }&page=${this.currentPage} ${
+        selectedCategory &&
+        "&filter[title][like]=terremoto&filter[slug][like]=test"
+      } `
+    ).then((res) =>
+      res.json().then((data) => ({
+        data,
+        pageCount: res.headers.get("X-Pagination-Page-Count"),
+        currentPage: res.headers.get("X-Pagination-Current-Page"),
+      }))
+    );
+
+    this.$store.commit("updateStores", storeData.data);
+    this.pageCount = storeData.pageCount;
+    this.currentPage = storeData.currentPage;
+
+    //  Pagination n° limit to 5
+    let range = this.pageRange(Number(this.currentPage), this.pageCount);
+    this.start = Number(range.start);
+    this.end = range.end;
+
+    this.paginationRange = [];
+    for (let i = --this.start; i < this.end; i++) {
+      this.paginationRange.push(i);
+    }
   },
 
   computed: {
     ...mapState(["selectedMunicipality", "stores"]),
 
     filteredStores() {
-      if (
-        this.$nuxt.context.route.params.category &&
-        (this.selectedMunicipality ||
-          this.$nuxt.context.route.query.municipality)
-      ) {
-        return this.$store.getters.getStoreByCategoryAndMunicipality(
-          this.$nuxt.context.query.municipality,
-          this.$nuxt.context.route.params.category
-        );
-      } else if (
-        this.$nuxt.context.route.params.municipality &&
-        this.selectedMunicipality
-      ) {
-        return this.$store.getters.getStoreByMoreMunicipality(
-          this.$nuxt.context.route.params.municipality
-        );
-      } else if (this.$nuxt.context.route.params.category) {
-        return this.$store.getters.getStoreByCategory(
-          this.$nuxt.context.route.params.category
-        );
-      } else if (
-        this.selectedMunicipality ||
-        this.$nuxt.context.route.params.municipality ||
-        this.$nuxt.context.route.query.municipality
-      ) {
-        return this.$store.getters.getStoreByMunicipality(
-          this.$nuxt.context.route.params.municipality ||
-            this.$nuxt.context.route.query.municipality ||
-            this.selectedMunicipality.slug
-        );
-      } else {
-        return this.stores;
-      }
-    },
-
-    totalPages: function () {
-      if (this.resultCount == 0) {
-        return 1;
-      } else {
-        return Math.ceil(this.resultCount / this.itemsPerPage);
-      }
-    },
-
-    paginate: function () {
-      if (this.$route.name.includes("index")) {
-        return this.filteredStores.slice(0, 6);
-      }
-      if (this.filteredStores.length >= this.itemsPerPage) {
-        this.resultCount = this.filteredStores.length;
-        let index = this.currentPage * this.itemsPerPage - this.itemsPerPage;
-        return this.filteredStores.slice(index, index + this.itemsPerPage);
-      }
-      return this.filteredStores;
+      // if (
+      //   this.$nuxt.context.route.params.category &&
+      //   (this.selectedMunicipality ||
+      //     this.$nuxt.context.route.query.municipality)
+      // ) {
+      //   return this.$store.getters.getStoreByCategoryAndMunicipality(
+      //     this.$nuxt.context.query.municipality,
+      //     this.$nuxt.context.route.params.category
+      //   );
+      // } else if (
+      //   this.$nuxt.context.route.params.municipality &&
+      //   this.selectedMunicipality
+      // ) {
+      //   return this.$store.getters.getStoreByMoreMunicipality(
+      //     this.$nuxt.context.route.params.municipality
+      //   );
+      // } else if (this.$nuxt.context.route.params.category) {
+      //   return this.$store.getters.getStoreByCategory(
+      //     this.$nuxt.context.route.params.category
+      //   );
+      // } else if (
+      //   this.selectedMunicipality ||
+      //   this.$nuxt.context.route.params.municipality ||
+      //   this.$nuxt.context.route.query.municipality
+      // ) {
+      //   return this.$store.getters.getStoreByMunicipality(
+      //     this.$nuxt.context.route.params.municipality ||
+      //       this.$nuxt.context.route.query.municipality ||
+      //       this.selectedMunicipality.slug
+      //   );
+      // } else {
+      //   return this.stores;
+      // }
+      return this.stores;
     },
 
     getCategory() {
@@ -402,10 +449,16 @@ export default {
 
   .pagination {
     @apply flex
+        flex-wrap
         justify-center
         max-w-max
         items-center
         mx-auto;
+
+    .buttons {
+      @apply flex
+      mx-2;
+    }
 
     button {
       @apply rounded-full
@@ -415,17 +468,24 @@ export default {
         min-w-max
         text-dark-cremona-domicilio
         text-lg
-        h-10
-        w-10
         outline-none
         opacity-30
+        mx-3
         transition-opacity
         hover:opacity-100;
+    }
+
+    .dots {
+      @apply text-dark-cremona-domicilio
+      opacity-30;
     }
     .current {
       @apply bg-green-cremona-domicilio
             text-white
-            opacity-100;
+            opacity-100
+            mx-1
+            h-10    
+            w-10;
     }
   }
 
@@ -458,7 +518,8 @@ export default {
     @apply animate-pulse;
 
     .skeleton-header {
-      @apply my-8;
+      @apply my-8
+      px-4;
 
       .skeleton-title {
         @apply text-2xl
@@ -659,7 +720,7 @@ export default {
       md:flex
       md:w-auto
       lg:mx-auto
-      hover:bg-opacity-80;
+      hover:bg-hover-light-purple-cremona-domicilio;
     }
   }
 }
