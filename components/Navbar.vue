@@ -374,7 +374,7 @@ export default {
           transition-colors
           hover:text-opacity-50;
 
-          &.nuxt-link-active::before {
+          &.nuxt-link-exact-active::before {
             content: "";
             @apply absolute
             -bottom-3
@@ -393,7 +393,7 @@ export default {
             rounded-full
             hover:bg-yellow-cremona-domicilio;
 
-          &.nuxt-link-active::before {
+          &.nuxt-link-exact-active::before {
             @apply hidden;
           }
         }
@@ -524,7 +524,7 @@ export default {
         }
       }
 
-      a.nuxt-link-active {
+      a.nuxt-link-exact-active {
         @apply text-green-cremona-domicilio;
       }
     }

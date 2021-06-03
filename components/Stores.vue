@@ -99,9 +99,7 @@
             "
           >
             {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
-            <span class="store-number">
-              ({{ getMunicipality.stores_number }})</span
-            >
+            <span class="store-number"> ({{ nStores }})</span>
             <h6>
               {{ $t("stores.storesThatDeliveryIn") }}:
               <span>{{ selectedMunicipality.title }}</span>
@@ -111,7 +109,7 @@
           <!-- IF CATEGORY -->
           <h3 v-else-if="getCategory">
             {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }}
-            <span class="store-number">({{ getCategory.stores_number }})</span>
+            <span class="store-number">({{ nStores }})</span>
             <h6 v-if="selectedMunicipality">
               {{ $t("stores.storesThatDeliveryIn") }}
               <span>{{ selectedMunicipality.title }}</span>
@@ -128,11 +126,13 @@
           </h3>
 
           <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
-          <h3 v-else-if="selectedMunicipality">
+          <h3
+            v-else-if="
+              selectedMunicipality && selectedMunicipality.slug != 'all-zones'
+            "
+          >
             {{ $t("stores.allShops") }}
-            <span class="store-number">
-              ({{ selectedMunicipality.stores_number }})
-            </span>
+            <span class="store-number"> ({{ nStores }}) </span>
             <h6>
               {{ $t("stores.storesThatDeliveryIn") }}:
               <span>{{ selectedMunicipality.title }}</span>
@@ -142,11 +142,17 @@
           <!-- DEFAULT -->
           <h3 v-else>
             {{ $t("stores.allShops") }}
+            <span class="store-number"> ({{ nStores }})</span>
           </h3>
         </div>
 
         <div v-if="filteredStores.length">
-          <div class="card-container">
+          <div
+            :class="{
+              'card-container': !$route.name.includes('index'),
+              'in-home': $route.name.includes('index'),
+            }"
+          >
             <div class="card" v-for="store of filteredStores" :key="store.slug">
               <nuxt-link
                 :to="
@@ -267,6 +273,7 @@ export default {
   data() {
     return {
       currentPage: 1,
+      nStores: 0,
       pageCount: 1,
       paginationRange: [],
       start: 0,
@@ -329,35 +336,32 @@ export default {
 
   async fetch() {
     //  if in home page sort by last created
-    let inHome = false;
-    if (this.$route.name.includes("index")) {
-      inHome = true;
-    } else {
-      inHome = false;
-    }
+    let inHome = this.$route.name.includes("index") ? true : false;
 
-    const selectedCategory = this.$nuxt.context.route.params.category;
+    const category = this.$nuxt.context.route.params.category;
+    const location = this.$nuxt.context.route.params.municipality;
 
     const storeData = await fetch(
       `https://api.domicilio.bitcream.test.emberware.it/store?per-page=${
         inHome ? "6&sort=-created_at" : "30&sort=title"
       }&page=${this.currentPage} ${
-        selectedCategory &&
-        "&filter[title][like]=terremoto&filter[slug][like]=test"
+        category && "&filter[title][like]=terremoto&filter[slug][like]=test"
       } `
     ).then((res) =>
       res.json().then((data) => ({
         data,
+        nStores: res.headers.get("X-Pagination-Total-Count"),
         pageCount: res.headers.get("X-Pagination-Page-Count"),
         currentPage: res.headers.get("X-Pagination-Current-Page"),
       }))
     );
 
     this.$store.commit("updateStores", storeData.data);
+    this.nStores = storeData.nStores;
     this.pageCount = storeData.pageCount;
     this.currentPage = storeData.currentPage;
 
-    //  Pagination n° limit to 5
+    //  Pagination index n° limit to 5
     let range = this.pageRange(Number(this.currentPage), this.pageCount);
     this.start = Number(range.start);
     this.end = range.end;
@@ -497,7 +501,7 @@ export default {
       md:text-4xl;
 
     span {
-      @apply text-green-cremona-domicilio
+      @apply inline text-green-cremona-domicilio
         font-bold;
     }
     .store-number {
@@ -597,6 +601,114 @@ export default {
 
   .content {
     @apply w-full;
+
+    .in-home {
+      @apply flex 
+        flex-row 
+        w-full
+        overflow-x-scroll
+        md:overflow-x-auto
+        md:py-4
+        md:mb-0
+        md:grid
+        md:grid-cols-2
+        md:gap-8
+        lg:grid-cols-3;
+
+      .card {
+        min-width: 70vw;
+
+        @media screen and(min-width: 768px) {
+          min-width: auto;
+        }
+
+        @apply cursor-pointer
+      bg-white
+        overflow-hidden
+        p-6
+        shadow-md
+        rounded 
+        flex
+        flex-col
+        justify-between
+        my-4
+        mr-8
+        md:my-0
+        md:mx-0
+        md:w-auto
+        transition-shadow
+        hover:shadow-lg;
+
+        a {
+          @apply h-full
+        flex
+        flex-col
+        justify-between;
+
+          .avatar {
+            @apply w-12
+          h-12
+          rounded-full
+          bg-blue-200;
+          }
+
+          h3 {
+            @apply text-lg
+          my-2;
+          }
+
+          .summary {
+            max-height: 5em;
+            @apply block
+          break-words
+          text-xs
+          leading-5
+          overflow-hidden
+          overflow-ellipsis;
+          }
+
+          footer {
+            ul {
+              @apply mt-4
+            flex
+            flex-wrap;
+
+              li,
+              .card-categories {
+                @apply flex-initial
+              bg-gray-100
+              my-1
+              mr-2
+              flex
+              items-center
+              rounded-full
+              text-xs;
+
+                span {
+                  @apply px-4
+                  py-1
+                  rounded-full;
+                }
+              }
+
+              .card-categories {
+                @apply px-4
+              py-1;
+              }
+              .delivery-cost {
+                @apply bg-gray-cremona-domicilio
+                text-white;
+              }
+
+              .free-delivery {
+                @apply bg-green-cremona-domicilio
+                text-white;
+              }
+            }
+          }
+        }
+      }
+    }
 
     .card-container {
       @apply flex
@@ -704,6 +816,7 @@ export default {
 
   span {
     @apply mx-auto
+    flex
     w-full;
 
     .btn-link {
@@ -715,11 +828,13 @@ export default {
       py-3
       px-6
       my-8
-      max-w-max
-      transition-colors
+      text-center
+      w-full
+      md:max-w-max
       md:flex
       md:w-auto
       lg:mx-auto
+      transition-colors
       hover:bg-hover-light-purple-cremona-domicilio;
     }
   }

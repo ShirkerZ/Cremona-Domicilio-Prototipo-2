@@ -39,7 +39,9 @@
         flex-col
         my-4
         lg:flex-row
-        lg:w-full;
+        lg:justify-between
+        lg:w-full
+        2xl:px-16;
 
     button {
       @apply flex
@@ -48,13 +50,11 @@
         px-6
         my-2
         rounded-full
-        mx-20
         text-white
         outline-none
         transition-colors
-        md:px-6
-        md:pr-4
-        lg:mx-auto;
+        md:py-3
+        md:pr-4;
 
       i {
         @apply ml-4

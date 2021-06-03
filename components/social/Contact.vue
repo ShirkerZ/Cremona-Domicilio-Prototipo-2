@@ -57,13 +57,15 @@ export default {
         text-center
         my-4
         lg:text-2xl
-        lg:px-16;
+        lg:px-8
+        2xl:px-24;
   }
 
   form {
     @apply flex
       flex-col
-      justify-center;
+      justify-center
+      2xl:mx-16;
 
     .field {
       @apply my-4

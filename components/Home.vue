@@ -61,7 +61,7 @@
         md:px-20
         lg:px-80
         2xl:w-1/2
-        2xl:px-48;
+        2xl:px-40;
     }
 
     p {
@@ -129,7 +129,9 @@
       left-0
       z-0
       w-1/3
-      md:w-1/4;
+      md:w-1/4
+      2xl:w-auto
+      2xl:h-5/6;
   }
 
   .right-img {
@@ -138,7 +140,9 @@
       right-0
       z-0
       w-1/3
-      md:w-1/4;
+      md:w-1/4
+      2xl:w-auto
+      2xl:h-5/6;
   }
 }
 </style>

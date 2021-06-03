@@ -63,7 +63,7 @@
               <li v-if="store.phone_number">
                 <h5>Telefono</h5>
                 <a href="">{{ store.phone_number }}</a>
-                <button>
+                <button v-if="store.whatsapp">
                   Scrivi su whatsapp<i class="fab fa-whatsapp"></i>
                 </button>
               </li>
@@ -362,7 +362,9 @@ export default {
 
   head() {
     return {
-      title: this.store ? this.store.title : "Cremona a Domicilio",
+      title: this.store
+        ? `${this.store.title} - Cremona a domicilio`
+        : "Cremona a Domicilio",
     };
   },
 
@@ -397,6 +399,8 @@ export default {
       flex-col
       px-4
       my-8
+      max-w-screen-2xl
+      mx-auto
       md:grid
       md:grid-cols-2
       md:gap-4;
@@ -784,7 +788,7 @@ export default {
               @apply flex
                 flex-col
                 my-4
-                pr-8
+                md:pr-8
                 md:w-1/2;
 
               label {
