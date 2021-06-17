@@ -15,7 +15,7 @@
                   :list="zones"
                   v-model="selected"
                   option-value="slug"
-                  option-text="title"
+                  :custom-text="MunicipalityNameAndStoreNumber"
                   :placeholder="$t('zones.selectZone')"
                 />
               </div>
@@ -86,6 +86,10 @@ export default {
   },
 
   methods: {
+    MunicipalityNameAndStoreNumber(municipality) {
+      return `${municipality.title} (${municipality.stores_number})`
+    },
+
     openOverlay() {
       this.isOpen = true;
     },
@@ -179,7 +183,7 @@ export default {
 
     .change-zone {
       @apply hidden
-    md:flex;
+        md:flex;
 
       button {
         @apply text-white
@@ -203,7 +207,7 @@ export default {
         }
 
         &:hover img {
-          transition: all 0.5s ease;
+          transition: transform 0.5s ease;
           transform: rotate(180deg);
         }
       }

@@ -8,7 +8,7 @@
     </div>
     <div class="social">
       <SocialShare />
-      <SocialContact />
+      <NewsletterForm />
     </div>
   </div>
 </template>

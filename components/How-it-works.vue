@@ -71,6 +71,7 @@
       md:gap-6;
 
     .step {
+      max-height: 36rem;
       @apply my-4
         rounded-lg
         relative
@@ -78,7 +79,7 @@
         flex-col
         items-center
         w-auto
-        h-80vh
+        h-65vh
         md:h-35vh
         lg:h-80vh
         2xl:h-60vh;
@@ -110,7 +111,9 @@
       }
 
       h3 {
-        @apply px-4
+        @apply relative
+        z-10
+          px-4
           my-0
           text-xl
           font-medium

@@ -48,5 +48,15 @@
         "bank_transfer": "Bank Transfer",
         "satispay": "Satispay",
         "paypal": "PayPal"
+    },
+    "store_form": {
+        "firstname": "Nome",
+        "lastname": "Cognome",
+        "phone": "Telefono",
+        "inserisciEmail": "Inserisci la tua email",
+        "deliveryAddress": "Indirizzo a cui consegnare",
+        "deliveryMessage": "Cosa vorresti ordinare?",
+        "deliveryMessageLong": "Descrivi in maniera completa la tua richiesta.",
+        "sendRequest": "Invia la richiesta"
     }
 }

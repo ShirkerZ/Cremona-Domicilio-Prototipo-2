@@ -1,13 +1,17 @@
 <template>
-  <div class="home">
+  <div class="home" @click="hideBar">
     <main>
       <h1>{{ $t("home.heroTitle") }} Cremona</h1>
       <p>
         {{ $t("home.heroSubTitle") }}
       </p>
-      <form>
-        <input type="text" :placeholder="$t('home.searchPlaceholder')" />
-        <button type="submit">{{ $t("home.search") }}</button>
+      <form @submit.prevent="searchStore">
+        <input
+          type="text"
+          v-model="query"
+          :placeholder="$t('home.searchPlaceholder')"
+        />
+        <button>{{ $t("home.search") }}</button>
       </form>
     </main>
     <img
@@ -23,6 +27,38 @@
     />
   </div>
 </template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+  data() {
+    return {
+      query: "",
+    };
+  },
+
+  methods: {
+    searchStore() {
+      if (this.query.trim()) {
+        this.$router.push(
+          this.localePath({ name: "stores", query: { search: this.query } })
+        );
+        this.query = "";
+        this.$store.commit("toggleSearchBar", false);
+      }
+    },
+
+    hideBar() {
+      this.$store.commit("toggleSearchBar", false);
+    },
+  },
+
+  computed: {
+    ...mapState(["showSearchBar"]),
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .home {
@@ -50,6 +86,9 @@
       pt-12
       pb-24
       z-10
+      w-full
+      max-w-screen-2xl
+      mx-auto
       lg:py-16
       lg:min-h-full;
 
@@ -57,11 +96,8 @@
       @apply text-3xl
         font-bold
         mx-4
-        md:text-4xl
-        md:px-20
-        lg:px-80
-        2xl:w-1/2
-        2xl:px-40;
+        max-w-xl
+        md:text-4xl;
     }
 
     p {
@@ -78,11 +114,10 @@
         flex-col
         w-full
         px-4
-        md:w-full
-        md:my-4
-        lg:px-56
-        2xl:w-1/2
-        2xl:px-12;
+        lg:w-4/6
+        lg:my-4
+        lg:px-0
+        2xl:w-7/12;
 
       input {
         @apply rounded-full
@@ -95,7 +130,6 @@
           px-6
           w-full
           md:my-0
-          md:px-6
           lg:text-lg;
       }
 
@@ -111,13 +145,13 @@
           md:absolute
           md:right-0
           md:py-2.5
-          md:my-1.5
+          md:px-3
           md:mr-6
+          md:my-1.5
           md:w-28
-          lg:text-lg
-          lg:mr-56
+          lg:py-3
+          lg:mr-0
           lg:right-1.5
-          2xl:mr-12
           hover:bg-hover-light-purple-cremona-domicilio;
       }
     }

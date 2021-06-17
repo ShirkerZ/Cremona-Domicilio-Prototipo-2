@@ -1,5 +1,15 @@
 <template>
   <div class="navbar">
+    <transition>
+      <form v-if="showSearchBar" @submit.prevent="searchStore">
+        <input
+          type="text"
+          v-model="query"
+          :placeholder="$t('home.searchPlaceholder')"
+        />
+        <button>{{ $t("home.search") }}</button>
+      </form>
+    </transition>
     <nav>
       <div class="logo">
         <nuxt-link :to="localePath('index')" exact>{{
@@ -30,7 +40,7 @@
             }}</nuxt-link>
           </li>
         </ul>
-        <div class="search">
+        <div @click="showBar" class="search">
           <svg
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
@@ -259,21 +269,36 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
+      query: '',
       menuOpen: false,
+      test: this.$store.state.showSearchBar,
     };
   },
 
   methods: {
+    searchStore() {
+      this.$router.push(
+        this.localePath({ name: "stores", query: { search: this.query } })
+      );
+      this.query = "";
+      this.$store.commit("toggleSearchBar", false);
+    },
+
+    showBar() {
+      this.$store.commit("toggleSearchBar", true);
+    },
+
     toggleMenu() {
       if (!this.menuOpen) {
         this.$nextTick(() => {
           this.$gsap.to(".menu", 0.5, { left: 0 });
           //  hamburger animation open
           const tl1 = this.$gsap.timeline();
-          tl1.to(".rec-b", 0.2, { scaleX: 0, transformOrigin: "centers" });
+          tl1.to(".rec-b", 0.2, { scaleX: 0, transformOrigin: "center" });
           tl1.to(".rec-b", 0.1, { height: 0 });
           tl1.set(".rec-b", { display: "none" });
           tl1.to(".rec-a", 0.3, { rotate: 45 });
@@ -297,16 +322,20 @@ export default {
     closeMenu() {
       this.$nextTick(() => {
         this.$gsap.to(".menu", 0.5, { left: "100%" });
-          //  hamburger animation close
-          const tl1 = this.$gsap.timeline();
-          tl1.set(".rec-b", { display: "flex" });
-          tl1.to(".rec-a", 0.3, { rotate: 0 });
-          tl1.to(".rec-c", 0.3, { rotate: 0 }, "-=.3");
-          tl1.to(".rec-b", 0.1, { height: "0.125em" }, "-=.2");
-          tl1.to(".rec-b", 0.2, { scaleX: 1 }, "-=.2");
+        //  hamburger animation close
+        const tl1 = this.$gsap.timeline();
+        tl1.set(".rec-b", { display: "flex" });
+        tl1.to(".rec-a", 0.3, { rotate: 0 });
+        tl1.to(".rec-c", 0.3, { rotate: 0 }, "-=.3");
+        tl1.to(".rec-b", 0.1, { height: "0.125em" }, "-=.2");
+        tl1.to(".rec-b", 0.2, { scaleX: 1 }, "-=.2");
       });
       this.menuOpen = false;
     },
+  },
+
+  computed: {
+    ...mapState(["showSearchBar"]),
   },
 };
 </script>
@@ -314,17 +343,59 @@ export default {
 <style lang="scss" scoped>
 .navbar {
   @apply z-20
+  relative
   w-full
   md:fixed
   md:top-0
-
   md:bg-green-cremona-domicilio 
   md:px-4;
 
+  form {
+    @apply absolute
+      w-screen
+      inset-0
+      z-30
+      flex
+      justify-between
+      p-4
+      bg-dark-green-cremona-domicilio;
+
+    input {
+      @apply w-1/2
+        px-4
+        text-xl
+        bg-transparent
+        outline-none
+        border-none
+        text-white;
+        &::placeholder {
+          @apply text-white;
+        }
+    }
+
+    button {
+      @apply rounded-full
+          bg-purple-cremona-domicilio
+          text-white
+          border-none
+          outline-none
+          font-medium
+          py-2
+          px-6
+          flex
+          items-center
+          transition-colors
+          md:py-2.5
+          hover:bg-hover-light-purple-cremona-domicilio;
+    }
+  }
+
   nav {
     @apply md:flex
-  md:items-center
-  md:justify-between mx-auto max-w-screen-2xl;
+    md:items-center
+    md:justify-between
+    mx-auto
+    max-w-screen-2xl;
 
     .logo {
       min-height: max-content;

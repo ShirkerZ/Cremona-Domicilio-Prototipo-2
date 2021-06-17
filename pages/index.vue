@@ -12,16 +12,15 @@
     </div>
     <div class="social">
       <SocialShare />
-      <SocialContact />
+      <NewsletterForm />
     </div>
   </div>
 </template>
 
-
 <style lang="scss" scoped>
-
 .index-container {
-  @apply bg-gray-50;
+  @apply bg-gray-50
+  2xl:-mt-px;
 }
 .banners {
   @apply flex

@@ -119,7 +119,7 @@
           <p>Vuoi solamente salutarci?</p>
         </h4>
         <button>
-          <nuxt-link to="/contact">Contattaci</nuxt-link>
+          <nuxt-link :to="localePath('contact')">Contattaci</nuxt-link>
         </button>
       </div>
     </div>

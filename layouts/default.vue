@@ -1,6 +1,9 @@
 <template>
   <div>
     <Navbar />
+
+    <NewsletterPopup :scroll="500"  />
+
     <div class="container">
       <transition appear name="zone-anim">
         <Zones v-if="!$route.name.includes('index')" />
@@ -51,14 +54,14 @@ body {
   transform: translate3d(0, 15px, 0);
 }
 
-
 .zone-anim-enter-active,
 .zone-anim-leave-active {
-  transition: max-height .35s ease-in-out;
+  transition: max-height 0.35s ease-in-out;
   max-height: 200px;
 }
 
-.zone-anim-enter, .zone-anim-leave-to {
+.zone-anim-enter,
+.zone-anim-leave-to {
   max-height: 0;
 }
 </style>

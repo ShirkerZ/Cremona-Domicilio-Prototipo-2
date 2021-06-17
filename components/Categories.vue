@@ -180,8 +180,8 @@ export default {
       a {
         @apply flex
             items-center
-            bg-gray-100
             text-dark-cremona-domicilio
+            bg-gray-100
             my-2
             mr-4
             px-4

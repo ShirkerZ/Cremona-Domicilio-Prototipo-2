@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Cremona a Domicilio',
+    title: 'Cremona a domicilio - Trova chi porta la spesa a casa tua a Cremona',
     htmlAttrs: {
       lang: 'en'
     },
@@ -95,6 +95,11 @@ export default {
       join: {
         it: '/aderisci',
         en: '/join',
+      },
+
+      contact: {
+        it: '/contattaci',
+        en: '/contact',
       }
     },
     defaultLocale: 'it',

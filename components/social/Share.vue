@@ -20,14 +20,20 @@
     flex-col
     justify-center
     items-center
-    lg:px-36;
+    lg:px-36
+    border-b
+    md:border-b-0
+    md:border-r
+    md:border-gray-300;
 
   h3 {
     @apply px-4
-        text-xl     
+        text-xl
+        text-dark-cremona-domicilio     
         font-medium
         text-center
-        lg:text-2xl;
+        lg:text-2xl
+        2xl:px-16;
   }
 
   img {
@@ -38,6 +44,7 @@
     @apply flex
         flex-col
         my-4
+        max-w-md
         lg:flex-row
         lg:justify-between
         lg:w-full
@@ -53,12 +60,12 @@
         text-white
         outline-none
         transition-colors
-        md:py-3
+        md:py-2.5
         md:pr-4;
 
       i {
         @apply ml-4
-            lg:text-xl;
+          lg:text-xl;
       }
     }
 

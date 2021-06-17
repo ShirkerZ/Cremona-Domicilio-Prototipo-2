@@ -1,8 +1,6 @@
 <template>
-  <div class="municipality">
-    <Stores />
-    <Categories />
-    <How-it-works />
+  <div class="contact-container">
+    <ContactUs />
     <div class="banners">
       <BannerMore />
       <BannerJoin />
@@ -15,7 +13,7 @@
 </template>
 
 <style lang="postcss" scoped>
-.municipality {
+.contact-container {
   @apply bg-gray-50;
 }
 .banners {
@@ -30,8 +28,7 @@
     md:gap-4;
 }
 .social {
-  @apply
-    max-w-screen-2xl
+  @apply max-w-screen-2xl
     mx-auto
     md:grid
     md:grid-cols-2

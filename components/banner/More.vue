@@ -1,5 +1,5 @@
 <template>
-  <a href="https://domicilio.app/">
+  <a href="https://domicilio.app/" target="_blank">
     <div class="banner more-banner">
       <h3>Il progetto è attivo anche in altre città!</h3>
       <button>Scopri di più</button>

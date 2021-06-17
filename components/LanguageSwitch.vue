@@ -1,15 +1,14 @@
 <template>
-    <div class="language-switch">
-      <nuxt-link
-        v-for="locale in $i18n.locales"
-        v-if="locale.code !== $i18n.locale"
-        :key="locale.code"
-        :to="switchLocalePath(locale.code)"
-      >
-        {{ $t("navbar.changeLanguage") }}: {{ locale.name }}
-      </nuxt-link>
-    </div>
-
+  <div class="language-switch">
+    <nuxt-link
+      v-for="locale in $i18n.locales"
+      v-if="locale.code !== $i18n.locale"
+      :key="locale.code"
+      :to="switchLocalePath(locale.code)"
+    >
+      {{ $t("navbar.changeLanguage") }}: <span>{{ locale.name }}</span> 
+    </nuxt-link>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -25,16 +24,19 @@
 
 .language-switch {
   a {
-    @apply bg-white
-        text-dark-cremona-domicilio
+    @apply bg-purple-cremona-domicilio
+        text-white
         rounded-b-3xl
         p-4
         pt-8
-        bg-opacity-30
         hidden
         transition-colors
-        hover:bg-opacity-100
+        hover:bg-hover-light-purple-cremona-domicilio
         lg:inline;
+
+        span {
+          @apply text-yellow-cremona-domicilio
+        }
   }
 }
 </style>

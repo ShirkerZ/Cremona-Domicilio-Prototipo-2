@@ -196,13 +196,13 @@
                 </li>
 
                 <!-- Online reservations -->
-                <li v-if="store.online_booking[0].web_site">
+                <li v-if="store.online_booking[0].url">
                   <h5>Prenotazione online</h5>
                   <a
-                    :href="reservation.web_site"
+                    :href="reservation.url"
                     v-for="reservation in store.online_booking"
-                    :key="reservation"
-                    >{{ reservation.web_site }}</a
+                    :key="reservation.url"
+                    >{{ reservation.url }}</a
                   >
                 </li>
               </ul>
@@ -231,7 +231,15 @@
                 Compila tutti i campi del form per inviare un'email al
                 commerciante con la tua richiesta.
               </p>
-              <form action="">
+
+              <StoreForm
+                email="zubenkodevelop@gmail.com"
+                :storeName="store.title"
+                :storePermalink="storePermalink"
+                :siteName="siteName"
+                :siteUrl="store.online_booking[0].url"
+              />
+              <!-- <form action="">
                 <div class="field">
                   <label for="name">Nome*</label
                   ><input
@@ -299,13 +307,13 @@
                 ** Confermo di aver preso visione dell'<a href=""
                   >informativa sul trattamento dei dati</a
                 >
-              </p>
+              </p> -->
             </div>
             <div class="municipalities" v-if="store.delivery_zones.length">
-              <h3>Comuni serviti ({{ deliveryData.minicipalities.length }})</h3>
+              <h3>Comuni serviti ({{ deliveryData.municipalities.length }})</h3>
               <ul>
                 <li
-                  v-for="municipality in deliveryData.minicipalities"
+                  v-for="municipality in deliveryData.municipalities"
                   :key="municipality.slug"
                 >
                   <nuxt-link
@@ -339,7 +347,7 @@
     </div>
     <div class="social">
       <SocialShare />
-      <SocialContact />
+      <NewsletterForm />
     </div>
   </div>
 </template>
@@ -357,6 +365,8 @@ export default {
       email: "",
       address: "",
       message: "",
+      storePermalink: "",
+      siteName: "",
     };
   },
 
@@ -364,7 +374,7 @@ export default {
     return {
       title: this.store
         ? `${this.store.title} - Cremona a domicilio`
-        : "Cremona a Domicilio",
+        : "Cremona a domicilio - Trova chi porta la spesa a casa tua a Cremona",
     };
   },
 
@@ -374,7 +384,6 @@ export default {
       if (user_zone) {
         return this.store.delivery_zones[user_zone];
       }
-      console.log("Delivery zone", this.store.delivery_zones[0]);
       return this.store.delivery_zones[0];
     },
   },
@@ -385,7 +394,11 @@ export default {
       `https://api.domicilio.bitcream.test.emberware.it/store?filter[slug]=${slug}`
     ).then((res) => res.json());
     this.store = storeData[0];
-    console.log("Store data", this.store);
+  },
+
+  mounted() {
+    this.storePermalink = window.location.href;
+    this.siteName = window.location.hostname;
   },
 };
 </script>
@@ -409,7 +422,9 @@ export default {
   .social {
     @apply md:grid
       md:grid-cols-2
-      lg:px-4;
+      lg:px-4
+      max-w-screen-2xl
+      mx-auto;
   }
 
   .skeleton {
@@ -677,10 +692,10 @@ export default {
             div {
               @apply flex
                 my-2
-                md:w-1/2
                 flex-wrap
                 justify-start
                 flex-row
+                md:w-7/12
                 md:justify-end;
 
               p {
@@ -774,9 +789,9 @@ export default {
 
           p {
             @apply text-lg
+              mb-8
               md:text-xl
-              md:text-dark-cremona-domicilio
-              md:mb-4;
+              md:text-dark-cremona-domicilio;
           }
 
           form {

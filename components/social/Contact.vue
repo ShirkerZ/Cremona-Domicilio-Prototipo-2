@@ -4,7 +4,12 @@
     <form action="">
       <div class="field">
         <label for="email">Inserisci la tua email</label>
-        <input type="text" name="email" placeholder="example@domain.info*" required />
+        <input
+          type="text"
+          name="email"
+          placeholder="example@domain.info*"
+          required
+        />
       </div>
       <div class="field">
         <label for=""
@@ -42,30 +47,28 @@ export default {
 .contact {
   @apply py-8
     px-8
-        flex
-        flex-col
-        border-t
-        md:border-t-0
-        md:border-l
-        md:border-gray-300
-        md:px-16
-        lg:px-24;
+      flex
+      flex-col
+      items-center
+      border-t
+      md:border-t-0
+      md:border-l
+      md:border-gray-300;
 
   h3 {
     @apply text-xl
         font-medium
+        max-w-md
         text-center
         my-4
-        lg:text-2xl
-        lg:px-8
-        2xl:px-24;
+        lg:text-2xl;
   }
 
   form {
     @apply flex
       flex-col
       justify-center
-      2xl:mx-16;
+      max-w-md;
 
     .field {
       @apply my-4
@@ -76,7 +79,8 @@ export default {
           text-gray-cremona-domicilio;
       }
 
-      input, select {
+      input,
+      select {
         @apply px-4
           py-2
           w-full

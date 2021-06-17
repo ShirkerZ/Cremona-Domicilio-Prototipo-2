@@ -92,10 +92,19 @@
             }}</span>
           </h3>
 
+          <!-- IF SEARCHED -->
+          <h3 v-else-if="$nuxt.context.route.query.search">
+            Risultati della ricerca per
+            <span>{{ $nuxt.context.route.query.search }}</span>
+            <span class="store-number"> ({{ nStores || 0 }}) </span>
+          </h3>
+
           <!-- IF 2 MUNICIPALITIES -->
           <h3
             v-else-if="
-              $nuxt.context.route.params.municipality && selectedMunicipality
+              $nuxt.context.route.params.municipality &&
+              selectedMunicipality &&
+              selectedMunicipality.slug != 'all-zones'
             "
           >
             {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
@@ -110,7 +119,11 @@
           <h3 v-else-if="getCategory">
             {{ $t("stores.storesCategoryIn") }} {{ getCategory.title }}
             <span class="store-number">({{ nStores }})</span>
-            <h6 v-if="selectedMunicipality">
+            <h6
+              v-if="
+                selectedMunicipality && selectedMunicipality.slug != 'all-zones'
+              "
+            >
               {{ $t("stores.storesThatDeliveryIn") }}
               <span>{{ selectedMunicipality.title }}</span>
             </h6>
@@ -123,6 +136,7 @@
             "
           >
             {{ $t("stores.storesDeliveryIn") }} {{ getMunicipality.title }}
+            <span class="store-number"> ({{ nStores }})</span>
           </h3>
 
           <!-- IF SELECTED MUNICIPALITY (NORMAL) -->
@@ -145,15 +159,14 @@
             <span class="store-number"> ({{ nStores }})</span>
           </h3>
         </div>
-
-        <div v-if="filteredStores.length">
+        <div v-if="stores.length">
           <div
             :class="{
               'card-container': !$route.name.includes('index'),
               'in-home': $route.name.includes('index'),
             }"
           >
-            <div class="card" v-for="store of filteredStores" :key="store.slug">
+            <div class="card" v-for="store of stores" :key="store.slug">
               <nuxt-link
                 :to="
                   localePath({
@@ -234,7 +247,16 @@
         </div>
 
         <div class="shop-not-found" v-else>
-          <p>Nessun negozio trovato...</p>
+          <img
+            src="https://cremona.domicilio.app/app/themes/cremonadomicilio-theme/dist/images/not-found_d1f91c1f.png"
+            alt=""
+            srcset=""
+          />
+          <div class="content">
+            <p class="title">Oops, ci siamo "persi"!</p>
+            <p>Siamo spiacenti, non sono stati trovati risultati.</p>
+            <nuxt-link :to="localePath('index')">Torna alla home</nuxt-link>
+          </div>
         </div>
 
         <span v-if="$route.name.includes('index')">
@@ -338,16 +360,30 @@ export default {
     //  if in home page sort by last created
     let inHome = this.$route.name.includes("index") ? true : false;
 
+    const searchStore = this.$nuxt.context.route.query.search;
     const category = this.$nuxt.context.route.params.category;
     const location = this.$nuxt.context.route.params.municipality;
+    const municipality = localStorage.getItem("municipality")
+      ? localStorage.getItem("municipality")
+      : this.selectedMunicipality
+      ? this.selectedMunicipality.slug
+      : undefined;
 
-    const storeData = await fetch(
-      `https://api.domicilio.bitcream.test.emberware.it/store?per-page=${
-        inHome ? "6&sort=-created_at" : "30&sort=title"
-      }&page=${this.currentPage} ${
-        category && "&filter[title][like]=terremoto&filter[slug][like]=test"
-      } `
-    ).then((res) =>
+    //  Fetch Query
+    const query =
+      "https://api.domicilio.bitcream.test.emberware.it/store?per-page=" +
+      (inHome == true ? "6&sort=-created_at" : "30&sort=title") +
+      "&page=" +
+      this.currentPage +
+      (category != undefined ? "&filter[category.slug]=" + category : "") +
+      (municipality != undefined && municipality != "all-zones"
+        ? "&filter[municipality.slug]=" + municipality
+        : "") +
+      (location != undefined ? "&filter[municipality.slug]=" + location : "") +
+      (searchStore != undefined ? "&filter[slug][like]=" + searchStore : "");
+
+    //  Fetch Stores
+    const storeData = await fetch(query).then((res) =>
       res.json().then((data) => ({
         data,
         nStores: res.headers.get("X-Pagination-Total-Count"),
@@ -372,45 +408,24 @@ export default {
     }
   },
 
+  watch: {
+    selectedMunicipality: {
+      deep: true,
+      handler() {
+        this.currentPage = 1;
+        this.$fetch();
+      },
+    },
+    "$nuxt.context.route.query.search": {
+      deep: true,
+      handler() {
+        this.$fetch();
+      },
+    },
+  },
+
   computed: {
     ...mapState(["selectedMunicipality", "stores"]),
-
-    filteredStores() {
-      // if (
-      //   this.$nuxt.context.route.params.category &&
-      //   (this.selectedMunicipality ||
-      //     this.$nuxt.context.route.query.municipality)
-      // ) {
-      //   return this.$store.getters.getStoreByCategoryAndMunicipality(
-      //     this.$nuxt.context.query.municipality,
-      //     this.$nuxt.context.route.params.category
-      //   );
-      // } else if (
-      //   this.$nuxt.context.route.params.municipality &&
-      //   this.selectedMunicipality
-      // ) {
-      //   return this.$store.getters.getStoreByMoreMunicipality(
-      //     this.$nuxt.context.route.params.municipality
-      //   );
-      // } else if (this.$nuxt.context.route.params.category) {
-      //   return this.$store.getters.getStoreByCategory(
-      //     this.$nuxt.context.route.params.category
-      //   );
-      // } else if (
-      //   this.selectedMunicipality ||
-      //   this.$nuxt.context.route.params.municipality ||
-      //   this.$nuxt.context.route.query.municipality
-      // ) {
-      //   return this.$store.getters.getStoreByMunicipality(
-      //     this.$nuxt.context.route.params.municipality ||
-      //       this.$nuxt.context.route.query.municipality ||
-      //       this.selectedMunicipality.slug
-      //   );
-      // } else {
-      //   return this.stores;
-      // }
-      return this.stores;
-    },
 
     getCategory() {
       return this.$store.getters.getCategory(
@@ -810,7 +825,55 @@ export default {
     }
 
     .shop-not-found {
-      @apply text-center;
+      @apply md:grid
+      md:grid-cols-2
+      md:place-items-center;
+      img {
+        @apply w-4/5
+        relative
+        left-1/2
+        transform
+        -translate-x-1/2
+        my-16
+        md:mb-0
+        md:col-start-2
+        md:left-0
+        md:translate-x-0
+        md:w-auto
+        md:h-70vh
+        2xl:h-50vh;
+      }
+
+      .content {
+        @apply md:col-start-1
+        md:row-start-1;
+        .title {
+          @apply text-2xl
+        font-bold
+        my-8
+        md:text-4xl;
+        }
+
+        p {
+          @apply text-xl
+          text-dark-cremona-domicilio
+          my-6;
+        }
+
+        a {
+          @apply bg-green-cremona-domicilio
+        text-white
+        font-medium
+        py-3
+        px-6
+        my-8
+        flex
+        max-w-max
+        rounded-full
+        transition-colors
+        hover:bg-purple-cremona-domicilio;
+        }
+      }
     }
   }
 
