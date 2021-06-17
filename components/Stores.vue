@@ -358,8 +358,7 @@ export default {
 
   async fetch() {
     //  if in home page sort by last created
-    let inHome = this.$route.name.includes("index") ? true : false;
-
+    const inHome = this.$route.name.includes("index") ? true : false;
     const searchStore = this.$nuxt.context.route.query.search;
     const category = this.$nuxt.context.route.params.category;
     const location = this.$nuxt.context.route.params.municipality;
@@ -371,10 +370,11 @@ export default {
 
     //  Fetch Query
     const query =
-      "https://api.domicilio.bitcream.test.emberware.it/store?per-page=" +
-      (inHome == true ? "6&sort=-created_at" : "30&sort=title") +
-      "&page=" +
-      this.currentPage +
+      process.env.api +
+      ("/store?page=" + this.currentPage) +
+      (inHome === true
+        ? "&per-page=6&sort=-created_at"
+        : "&per-page=30&sort=title") +
       (category != undefined ? "&filter[category.slug]=" + category : "") +
       (municipality != undefined && municipality != "all-zones"
         ? "&filter[municipality.slug]=" + municipality

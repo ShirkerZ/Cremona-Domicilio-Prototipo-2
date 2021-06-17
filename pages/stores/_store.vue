@@ -237,8 +237,10 @@
                 :storeName="store.title"
                 :storePermalink="storePermalink"
                 :siteName="siteName"
-                :siteUrl="store.online_booking[0].url"
+                :siteUrl="siteUrl"
               />
+              <!-- Site name: Cremona a domicilio -->
+              <!-- Site URL: Hostname (cremona.domicilio.app) -->
               <!-- <form action="">
                 <div class="field">
                   <label for="name">Nome*</label
@@ -367,6 +369,7 @@ export default {
       message: "",
       storePermalink: "",
       siteName: "",
+      siteUrl: "",
     };
   },
 
@@ -398,7 +401,8 @@ export default {
 
   mounted() {
     this.storePermalink = window.location.href;
-    this.siteName = window.location.hostname;
+    this.siteName = process.env.siteName
+    this.siteUrl = window.location.hostname;
   },
 };
 </script>

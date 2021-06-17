@@ -105,6 +105,11 @@ export default {
     defaultLocale: 'it',
   },
 
+  env: {
+    siteName: process.env.SITE_NAME,
+    api: process.env.API
+  },
+  
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
