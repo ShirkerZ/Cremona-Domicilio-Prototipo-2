@@ -11,7 +11,7 @@
             <nuxt-link :to="`/${link}`">{{ link }}</nuxt-link
             >>
           </span>
-          <span v-for="(current, index) of lastElement" :key="index">
+          <span v-for="current of lastElement" :key="current">
             <span> {{ current }} </span>
           </span>
         </span>

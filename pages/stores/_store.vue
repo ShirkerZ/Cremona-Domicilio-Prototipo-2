@@ -20,12 +20,12 @@
       <div class="store">
         <div class="store-header">
           <img :src="store.logo" alt="" class="avatar" />
-          <h2>{{ store.title }}</h2>
+          <h2 v-html="store.title"></h2>
           <ul
             class="category-container"
             v-if="store.delivery_zones && store.delivery_zones.length > 0"
           >
-            <li v-for="cost in deliveryData.delivery_methods" :key="cost">
+            <li v-for="cost in deliveryData.delivery_methods" :key="cost.id">
               <span
                 class="free-delivery"
                 v-if="cost.minimum_expense > 0 && cost.cost == 0"
@@ -43,7 +43,7 @@
               </span>
             </li>
             <!-- Store categories -->
-            <li v-for="category of store.categories" :key="category.slug">
+            <li v-for="category of store.categories" :key="category.id">
               <nuxt-link
                 :to="
                   localePath({
@@ -59,28 +59,30 @@
         <div class="content">
           <div class="left-col">
             <ul class="info">
-              <button>Invia richiesta</button>
+              <a href="#" class="cta">Invia richiesta</a>
               <li v-if="store.phone_number">
                 <h5>Telefono</h5>
-                <a href="">{{ store.phone_number }}</a>
-                <button v-if="store.whatsapp">
+                <a :href="`tel:${store.phone_number}`">{{
+                  store.phone_number
+                }}</a>
+                <a href="" class="whatsapp-btn" v-if="store.whatsapp">
                   Scrivi su whatsapp<i class="fab fa-whatsapp"></i>
-                </button>
+                </a>
               </li>
               <li v-if="store.address">
                 <h5>Indirizzo</h5>
                 <p>
                   {{ store.address.street }},
-                  {{ store.address.postal_code }}
                   {{ store.address.municipality }}
                   <span v-if="store.address.province">
-                    ({{ store.address.province }})
+                    ({{ store.address.province }}),
                   </span>
+                  {{ store.address.postal_code }}
                 </p>
               </li>
               <li v-if="store.email">
                 <h5>Email</h5>
-                <a href="">{{ store.email }}</a>
+                <a :href="`mailto:${store.email}`">{{ store.email }}</a>
               </li>
               <li v-if="store.web_site">
                 <h5>Sito web</h5>
@@ -107,11 +109,13 @@
             </div>
           </div>
           <div class="right-col">
-            <div class="delivery-info">
+            <!-- Delivery Info -->
+            <div
+              v-if="store.delivery_zones && store.delivery_zones.length > 0"
+              class="delivery-info"
+            >
               <h3>Modalità di consegna</h3>
-              <ul
-                v-if="store.delivery_zones && store.delivery_zones.length > 0"
-              >
+              <ul>
                 <!-- Delivery days -->
                 <li v-if="deliveryData.day_hours_order">
                   <h5>Giorni di consegna</h5>
@@ -129,7 +133,7 @@
                   <div>
                     <p
                       v-for="cost in deliveryData.delivery_methods"
-                      :key="cost"
+                      :key="cost.id"
                     >
                       <span v-if="cost.minimum_expense > 0 && cost.cost == 0">
                         {{
@@ -189,7 +193,7 @@
                 >
                   <h5>Modalità di pagamento</h5>
                   <div>
-                    <p v-for="mode in store.payment_methods" :key="mode">
+                    <p v-for="mode in store.payment_methods" :key="mode.id">
                       {{ mode.title }}
                     </p>
                   </div>
@@ -207,6 +211,7 @@
                 </li>
               </ul>
             </div>
+
             <div class="post-container" v-if="store.description">
               <div class="description" v-html="store.description"></div>
               <ul v-if="store.products && store.products.products_surveyed">
@@ -217,6 +222,12 @@
                   {{ product }}
                 </li>
               </ul>
+              <div class="test-gallery-container">
+                <img src="https://picsum.photos/600/800" class="test-gallery" />
+                <img src="https://picsum.photos/600/801" class="test-gallery" />
+                <img src="https://picsum.photos/600/802" class="test-gallery" />
+                <img src="https://picsum.photos/600/803" class="test-gallery" />
+              </div>
               <div class="gallery" v-if="store.gallery">
                 <ul>
                   <li v-for="image in store.gallery" :key="image">
@@ -225,6 +236,7 @@
                 </ul>
               </div>
             </div>
+
             <div v-if="store.email" class="contact-store">
               <h3>Manda ora la tua richiesta!</h3>
               <p>
@@ -311,12 +323,13 @@
                 >
               </p> -->
             </div>
+
             <div class="municipalities" v-if="store.delivery_zones.length">
               <h3>Comuni serviti ({{ deliveryData.municipalities.length }})</h3>
               <ul>
                 <li
                   v-for="municipality in deliveryData.municipalities"
-                  :key="municipality.slug"
+                  :key="municipality.id"
                 >
                   <nuxt-link
                     :to="
@@ -330,6 +343,7 @@
                 </li>
               </ul>
             </div>
+
             <div class="share-block">
               <p>Condividi <span>Terremoto Bike</span> con i tuoi amici:</p>
               <div class="links">
@@ -401,7 +415,7 @@ export default {
 
   mounted() {
     this.storePermalink = window.location.href;
-    this.siteName = process.env.siteName
+    this.siteName = process.env.siteName;
     this.siteUrl = window.location.hostname;
   },
 };
@@ -584,7 +598,7 @@ export default {
         .info {
           @apply lg:pr-24;
 
-          button {
+          .cta {
             @apply flex
               justify-center
               bg-purple-cremona-domicilio
@@ -621,18 +635,20 @@ export default {
                 hover:no-underline;
             }
 
-            button {
+            .whatsapp-btn {
               @apply flex
                 items-center
                 bg-green-cremona-domicilio
+                no-underline
                 text-white
                 text-xs
-                w-auto
+                max-w-max
+                rounded-full
                 py-1
                 px-4
                 outline-none
-                md:mt-8
-                md:mb-4
+                mt-8
+                mb-4
                 transition-colors
                 hover:bg-purple-cremona-domicilio;
 
@@ -664,6 +680,22 @@ export default {
               font-bold
               my-8
               md:text-3xl;
+          }
+
+          .payment-options {
+            div {
+              p {
+                &::after {
+                  content: ",";
+                  margin-left: 0;
+                }
+
+                &:last-child::after {
+                  content: "";
+                  @apply md:m-0;
+                }
+              }
+            }
           }
 
           li {
@@ -747,6 +779,22 @@ export default {
               @apply text-xl
               leading-7
               my-2;
+            }
+          }
+
+          .test-gallery-container {
+            @apply flex
+            flex-wrap
+            pt-8
+            gap-4;
+
+            .test-gallery {
+              flex: 1 1 30%;
+              @apply bg-gray-200
+              h-full
+              object-cover
+              rounded
+              md:w-3/12;
             }
           }
 

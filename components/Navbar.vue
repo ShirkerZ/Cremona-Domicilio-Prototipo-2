@@ -1,10 +1,12 @@
 <template>
   <div class="navbar">
     <transition>
-      <form v-if="showSearchBar" @submit.prevent="searchStore">
+      <form :class="{ active: showSearchBar }" @submit.prevent="searchStore">
         <input
           type="text"
+          ref="search"
           v-model="query"
+          @blur="hideSearchBar"
           :placeholder="$t('home.searchPlaceholder')"
         />
         <button>{{ $t("home.search") }}</button>
@@ -270,12 +272,12 @@
 
 <script>
 import { mapState } from "vuex";
+
 export default {
   data() {
     return {
-      query: '',
+      query: "",
       menuOpen: false,
-      test: this.$store.state.showSearchBar,
     };
   },
 
@@ -285,43 +287,43 @@ export default {
         this.localePath({ name: "stores", query: { search: this.query } })
       );
       this.query = "";
-      this.$store.commit("toggleSearchBar", false);
+      this.hideSearchBar()
     },
 
     showBar() {
       this.$store.commit("toggleSearchBar", true);
+      this.$refs.search.focus();
+    },
+
+    hideSearchBar() {
+      this.$store.commit("toggleSearchBar", false);
     },
 
     toggleMenu() {
       if (!this.menuOpen) {
-        this.$nextTick(() => {
-          this.$gsap.to(".menu", 0.5, { left: 0 });
-          //  hamburger animation open
-          const tl1 = this.$gsap.timeline();
-          tl1.to(".rec-b", 0.2, { scaleX: 0, transformOrigin: "center" });
-          tl1.to(".rec-b", 0.1, { height: 0 });
-          tl1.set(".rec-b", { display: "none" });
-          tl1.to(".rec-a", 0.3, { rotate: 45 });
-          tl1.to(".rec-c", 0.3, { rotate: -45 }, "-=.3");
-        });
+        this.openMenu();
       } else {
-        this.$nextTick(() => {
-          this.$gsap.to(".menu", 0.5, { left: "100%" });
-          //  hamburger animation close
-          const tl1 = this.$gsap.timeline();
-          tl1.set(".rec-b", { display: "flex" });
-          tl1.to(".rec-a", 0.3, { rotate: 0 });
-          tl1.to(".rec-c", 0.3, { rotate: 0 }, "-=.3");
-          tl1.to(".rec-b", 0.1, { height: "0.125em" }, "-=.2");
-          tl1.to(".rec-b", 0.2, { scaleX: 1 }, "-=.2");
-        });
+        this.closeMenu();
       }
-      this.menuOpen = !this.menuOpen;
+    },
+
+    openMenu() {
+      this.$nextTick(() => {
+        this.$gsap.to(".menu", 0.5, { left: 0, ease: "power4.out" });
+        //  hamburger animation open
+        const tl1 = this.$gsap.timeline();
+        tl1.to(".rec-b", 0.2, { scaleX: 0, transformOrigin: "center" });
+        tl1.to(".rec-b", 0.1, { height: 0 });
+        tl1.set(".rec-b", { display: "none" });
+        tl1.to(".rec-a", 0.3, { rotate: 45 });
+        tl1.to(".rec-c", 0.3, { rotate: -45 }, "-=.3");
+      });
+      this.menuOpen = true;
     },
 
     closeMenu() {
       this.$nextTick(() => {
-        this.$gsap.to(".menu", 0.5, { left: "100%" });
+        this.$gsap.to(".menu", 0.5, { left: "100%", ease: "power4.out" });
         //  hamburger animation close
         const tl1 = this.$gsap.timeline();
         tl1.set(".rec-b", { display: "flex" });
@@ -350,10 +352,15 @@ export default {
   md:bg-green-cremona-domicilio 
   md:px-4;
 
+  .active {
+    @apply absolute
+    inset-0;
+  }
+
   form {
     @apply absolute
       w-screen
-      inset-0
+      -top-full
       z-30
       flex
       justify-between
@@ -368,25 +375,25 @@ export default {
         outline-none
         border-none
         text-white;
-        &::placeholder {
-          @apply text-white;
-        }
+      &::placeholder {
+        @apply text-white;
+      }
     }
 
     button {
       @apply rounded-full
-          bg-purple-cremona-domicilio
-          text-white
-          border-none
-          outline-none
-          font-medium
-          py-2
-          px-6
-          flex
-          items-center
-          transition-colors
-          md:py-2.5
-          hover:bg-hover-light-purple-cremona-domicilio;
+        bg-purple-cremona-domicilio
+        text-white
+        border-none
+        outline-none
+        font-medium
+        py-2
+        px-6
+        flex
+        items-center
+        transition-colors
+        md:py-2.5
+        hover:bg-hover-light-purple-cremona-domicilio;
     }
   }
 

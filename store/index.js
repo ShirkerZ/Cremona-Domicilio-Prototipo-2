@@ -74,7 +74,7 @@ export const mutations = {
 
     toggleSearchBar(state, payload) {
         state.showSearchBar = payload
-    }
+    },
 }
 
 

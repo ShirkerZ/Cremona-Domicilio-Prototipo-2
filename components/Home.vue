@@ -14,6 +14,7 @@
         <button>{{ $t("home.search") }}</button>
       </form>
     </main>
+
     <img
       class="left-img"
       src="https://cremona.domicilio.app/app/themes/cremonadomicilio-theme/dist/images/bg-intro-sx_f3d31398.png"
@@ -27,38 +28,6 @@
     />
   </div>
 </template>
-
-<script>
-import { mapState } from "vuex";
-
-export default {
-  data() {
-    return {
-      query: "",
-    };
-  },
-
-  methods: {
-    searchStore() {
-      if (this.query.trim()) {
-        this.$router.push(
-          this.localePath({ name: "stores", query: { search: this.query } })
-        );
-        this.query = "";
-        this.$store.commit("toggleSearchBar", false);
-      }
-    },
-
-    hideBar() {
-      this.$store.commit("toggleSearchBar", false);
-    },
-  },
-
-  computed: {
-    ...mapState(["showSearchBar"]),
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .home {

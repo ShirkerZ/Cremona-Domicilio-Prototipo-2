@@ -166,7 +166,7 @@
               'in-home': $route.name.includes('index'),
             }"
           >
-            <div class="card" v-for="store of stores" :key="store.slug">
+            <div class="card" v-for="store of stores" :key="store.id">
               <nuxt-link
                 :to="
                   localePath({
@@ -177,7 +177,7 @@
               >
                 <main>
                   <img class="avatar" :src="store.logo" />
-                  <h3>{{ store.title }}</h3>
+                  <h3 v-html="store.title"></h3>
                   <p class="summary" v-html="store.description" />
                 </main>
                 <footer>
@@ -185,9 +185,8 @@
                     v-if="store.delivery_zones && store.delivery_zones.length"
                   >
                     <li
-                      v-for="(cost, index) in store.delivery_zones[0]
-                        .delivery_methods"
-                      :key="index"
+                      v-for="cost in store.delivery_zones[0].delivery_methods"
+                      :key="cost.id"
                     >
                       <span
                         class="free-delivery"
@@ -208,7 +207,7 @@
                     <li
                       class="card-categories"
                       v-for="category of store.categories"
-                      :key="category.slug"
+                      :key="category.id"
                     >
                       {{ category.title }}
                     </li>
@@ -362,25 +361,21 @@ export default {
     const searchStore = this.$nuxt.context.route.query.search;
     const category = this.$nuxt.context.route.params.category;
     const location = this.$nuxt.context.route.params.municipality;
-    const municipality = localStorage.getItem("municipality")
+    let municipality = localStorage.getItem("municipality")
       ? localStorage.getItem("municipality")
       : this.selectedMunicipality
       ? this.selectedMunicipality.slug
       : undefined;
+    if (municipality === "all-zones") municipality = undefined;
 
     //  Fetch Query
     const query =
-      process.env.api +
-      ("/store?page=" + this.currentPage) +
-      (inHome === true
-        ? "&per-page=6&sort=-created_at"
-        : "&per-page=30&sort=title") +
-      (category != undefined ? "&filter[category.slug]=" + category : "") +
-      (municipality != undefined && municipality != "all-zones"
-        ? "&filter[municipality.slug]=" + municipality
-        : "") +
-      (location != undefined ? "&filter[municipality.slug]=" + location : "") +
-      (searchStore != undefined ? "&filter[slug][like]=" + searchStore : "");
+      `${process.env.api}/store?page=${this.currentPage}` +
+      `${inHome ? "&per-page=6&sort=-created_at" : "&per-page=30&sort=title"}` +
+      `${category ? "&filter[category.slug]=" + category : ""}` +
+      `${municipality ? "&filter[municipality.slug]=" + municipality : ""}` +
+      `${location ? "&filter[municipality.slug]=" + location : ""}` +
+      `${searchStore ? "&filter[title][like]=" + searchStore : ""}`;
 
     //  Fetch Stores
     const storeData = await fetch(query).then((res) =>
@@ -416,7 +411,7 @@ export default {
         this.$fetch();
       },
     },
-    "$nuxt.context.route.query.search": {
+    "$route.query": {
       deep: true,
       handler() {
         this.$fetch();
